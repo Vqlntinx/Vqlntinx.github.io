@@ -6,7 +6,8 @@ const write = (k, v) => { try { localStorage.setItem(k, v); } catch { /* private
 
 export function PrefsProvider({ children }) {
   const [lang, setLangState] = useState(() => read('p1.lang', 'ko'));
-  const [sound, setSoundState] = useState(() => read('p1.sound', 'off') === 'on');
+  // sound effects: on by default (browsers still hold sound until the first click or key press)
+  const [sound, setSoundState] = useState(() => read('p1.sound', 'on') === 'on');
   const setLang = useCallback((l) => { setLangState(l); write('p1.lang', l); document.documentElement.lang = l; }, []);
   const setSound = useCallback((s) => { setSoundState(s); write('p1.sound', s ? 'on' : 'off'); }, []);
   // background music is its own switch (the ♪ chip), independent of sound effects
