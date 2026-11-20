@@ -1,0 +1,8 @@
+node_modules
+dist
+
+# not part of the site
+originals/
+.claude/
+.vscode/
+*.log

@@ -1,0 +1,102 @@
+.intro { position: fixed; inset: 0; overflow: hidden; background: #f3d9a8; }
+
+/* The stage keeps the video's 1660:1244 ratio and covers the viewport.
+   Everything inside is positioned in % of that frame, so it tracks the video at any size. */
+.stage {
+  position: absolute; left: 50%; top: 50%;
+  width: max(100vw, 133.44vh); aspect-ratio: 1660 / 1244;
+  transform: translate(-50%, -50%);
+  animation: roomIn 1.6s ease-out both;
+}
+@keyframes roomIn { from { filter: brightness(1.6) blur(8px); transform: translate(-50%,-50%) scale(1.06); } }
+/* portrait screens: keep the console (centre ≈ 42.4%, 58.5%) in view */
+@media (max-aspect-ratio: 1/1) { .stage { transform: translate(-42.4%, -55%); animation: none; } }
+
+.room { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: fill; }
+
+/* Zoom wrapper: transform is set from JS so the console screen lands exactly on the window */
+.zoom-layer {
+  position: absolute; inset: 0; transform-origin: 0 0;
+  transition: transform 1.15s cubic-bezier(.65, 0, .35, 1);
+  will-change: transform;
+}
+.intro.zooming .stage { animation: none; }
+.intro.zooming .intro-vignette,
+.intro.zooming .intro-toggles,
+.intro.zooming .intro-hint { opacity: 0; transition: opacity .3s; }
+
+/* Console outline (SVG in video pixel space) */
+.console-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.console-hit { fill: transparent; stroke: transparent; stroke-width: 10; pointer-events: all; cursor: pointer; }
+.neon { opacity: 0; transition: opacity .25s ease; }
+.intro.hovering .neon { opacity: 1; }
+.neon path { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.neon-glow { stroke-width: 16; opacity: .85; }
+.neon-line { stroke-width: 4.5; }
+/* a bright pulse running around the outline */
+.neon-run { stroke: #fff; stroke-width: 3; stroke-dasharray: 90 1500; animation: neonRun 2.2s linear infinite; filter: drop-shadow(0 0 6px #fff); }
+@keyframes neonRun { to { stroke-dashoffset: -1590; } }
+.intro.zooming .neon, .intro.zooming .press { opacity: 0; transition: opacity .2s; }
+
+/* Screen area (used for the hover glow and as the zoom target) */
+.screen-glow {
+  position: absolute; left: 31.69%; top: 49.36%; width: 23.61%; height: 17.2%;
+  background: radial-gradient(closest-side, rgba(120,230,255,.35), rgba(120,230,255,0));
+  mix-blend-mode: screen; opacity: 0; transition: opacity .3s; pointer-events: none;
+}
+.intro.hovering .screen-glow { opacity: 1; }
+/* screen powers on: soft cyan glow first, then solid white by the time it fills the window */
+.intro.zooming .screen-glow { opacity: 1; mix-blend-mode: normal; animation: screenOn 1.15s ease-in forwards; }
+@keyframes screenOn {
+  0% { background: rgba(170,235,255,.15); }
+  45% { background: rgba(200,245,255,.55); }
+  85%, 100% { background: #fff; }
+}
+
+.press {
+  position: absolute; left: 42.4%; top: 46.4%; transform: translate(-50%, calc(-100% + 8px));
+  display: flex; align-items: center; gap: 8px; white-space: nowrap; pointer-events: none;
+  padding: 6px 14px 6px 6px; border-radius: 999px;
+  background: rgba(10,14,30,.78); color: #fff; backdrop-filter: blur(6px);
+  font: 700 clamp(11px, .95vw, 15px) 'Orbitron', var(--ui); letter-spacing: .16em;
+  box-shadow: 0 0 0 1px rgba(47,216,255,.6), 0 0 18px rgba(47,216,255,.5);
+  opacity: 0; transition: opacity .25s, transform .25s;
+}
+.press .btn-glyph { width: 24px; height: 24px; font-size: 12px; }
+.intro.hovering .press { opacity: 1; transform: translate(-50%, -100%); }
+
+/* invisible but focusable twin of the console for keyboard users */
+.console-key {
+  position: absolute; left: 25.3%; top: 47.9%; width: 34.2%; height: 21.3%;
+  opacity: 0; pointer-events: none;
+}
+
+.intro-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 18vmin rgba(60,30,0,.3); }
+
+.sys-toggles { display: flex; gap: 8px; align-items: center; }
+.sys-chip {
+  display: inline-flex; align-items: center; gap: 4px; height: 32px; padding: 0 12px; border-radius: 999px;
+  background: rgba(255,255,255,.12); color: #fff; font: 600 12px var(--ui); letter-spacing: .06em;
+  transition: background .15s;
+}
+.sys-chip:hover { background: rgba(255,255,255,.22); }
+.sys-chip.icon { width: 32px; padding: 0; justify-content: center; }
+.sys-chip span { opacity: .45; }
+.sys-chip span.on { opacity: 1; }
+.sys-chip .sep { opacity: .3; }
+.intro-toggles { position: absolute; top: 18px; right: 20px; }
+.intro-toggles .sys-chip { background: rgba(40,25,10,.45); backdrop-filter: blur(6px); }
+
+
+.intro-hint {
+  position: absolute; left: 50%; bottom: 6vh; transform: translateX(-50%);
+  margin: 0; padding: 8px 16px; border-radius: 999px; white-space: nowrap;
+  background: rgba(30,20,10,.5); color: #fff; font: 500 14px var(--ui); backdrop-filter: blur(6px);
+  opacity: 0; transition: opacity .6s; pointer-events: none;
+  animation: bob 2.4s ease-in-out infinite;
+}
+.intro-hint.show { opacity: 1; }
+@keyframes bob { 50% { transform: translate(-50%, -4px); } }
+
+/* shared keyframe (also used by the Memories scene) */
+@keyframes lamp { 50% { opacity: .7; transform: scale(1.04); } }

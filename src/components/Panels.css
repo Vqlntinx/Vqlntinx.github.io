@@ -1,0 +1,68 @@
+/* Profile "user page" modal */
+.modal-backdrop { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.6); display: grid; place-items: center; padding: 16px; animation: fadeIn .2s ease both; }
+@keyframes fadeIn { from { opacity: 0; } }
+.user-page {
+  position: relative; width: min(920px, 100%); display: grid; grid-template-columns: 280px 1fr;
+  background: #3a3a3a; border-radius: 22px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.5);
+  animation: popIn .3s cubic-bezier(.2,.9,.25,1.2) both;
+}
+@keyframes popIn { from { transform: scale(.92); opacity: 0; } }
+.up-left { background: linear-gradient(160deg, #2fd8ff, #7b5cff); padding: 40px 24px; text-align: center; color: #fff; }
+.up-avatar { width: 172px; height: 172px; margin: 0 auto; border-radius: 50%; padding: 6px; background: rgba(255,255,255,.3); }
+.up-left h2 { margin: 18px 0 2px; font: 900 26px var(--ui); }
+.up-handle { margin: 6px 0 0; line-height: 0; }
+.up-code { margin: 18px 0 0; display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(0,0,0,.25); font: 600 12px 'Orbitron', var(--ui); letter-spacing: .12em; }
+.up-right { padding: 40px 36px; display: flex; flex-direction: column; gap: 18px; }
+.up-role { margin: 0; color: var(--sw-dim); font-size: 16px; }
+.up-quote { display: flex; align-items: flex-start; gap: 10px; }
+.up-quote blockquote { margin: 0; flex: 1; animation: quoteIn .35s ease-out both; }
+@keyframes quoteIn { from { opacity: 0; transform: translateY(6px); } }
+.up-quote p { margin: 0; font: 700 clamp(17px, 1.7vw, 22px)/1.45 var(--ui); word-break: keep-all; }
+.up-quote cite { display: block; margin-top: 8px; font: 500 13px var(--ui); font-style: normal; color: var(--sw-dim); }
+.up-reroll {
+  flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+  background: #2d2d2d; color: var(--sw-accent); transition: background .15s, transform .15s;
+}
+.up-reroll:hover { background: var(--sw-accent); color: #111; transform: rotate(-30deg); }
+.up-reroll svg { animation: rerollSpin .45s ease-out; }
+@keyframes rerollSpin { from { transform: rotate(-300deg); } }
+.up-stats { display: grid; grid-template-columns: 1.7fr repeat(3, 1fr); gap: 10px; }
+.up-stats div { background: #2d2d2d; border-radius: 14px; padding: 14px 6px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
+.up-stats b { font: 900 22px var(--ui); color: var(--sw-accent); white-space: nowrap; }
+.up-stats span { font-size: 12px; color: var(--sw-dim); }
+.up-links { display: flex; gap: 12px; margin-top: auto; }
+.up-links a { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: #2d2d2d; transition: all .15s; }
+.up-links a:hover { background: var(--sw-accent); color: #111; transform: translateY(-2px); }
+.up-close { position: absolute; top: 14px; right: 14px; }
+@media (max-width: 720px) {
+  .user-page { grid-template-columns: 1fr; max-height: 92vh; overflow: auto; }
+  .up-left { padding: 26px; }
+  .up-avatar { width: 120px; height: 120px; }
+  .up-avatar svg, .up-avatar img { width: 108px; height: 108px; }
+  .up-right { padding: 24px; }
+  .up-stats { grid-template-columns: repeat(3, 1fr); }
+  .up-stats .wide { grid-column: 1 / -1; }
+}
+
+/* Contact "friend card" */
+.contact { position: relative; align-self: center; justify-self: center; padding: 0 16px; width: min(760px, 100%); }
+.friend-card {
+  display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center;
+  padding: 36px; border-radius: 24px; background: rgba(58,58,58,.9); box-shadow: 0 20px 60px rgba(0,0,0,.35);
+}
+.fc-avatar { width: 132px; height: 132px; border-radius: 50%; padding: 6px; background: linear-gradient(135deg, var(--neon-a), var(--neon-b)); }
+.fc-body h2 { margin: 0; font: 900 32px var(--ui); }
+.fc-code { margin: 6px 0 18px; color: var(--sw-dim); font: 600 13px 'Orbitron', var(--ui); letter-spacing: .14em; }
+.fc-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.fc-links a { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: #2d2d2d; font-weight: 600; transition: all .15s; }
+.fc-links a:hover { background: var(--sw-accent); color: #111; transform: translateY(-2px); }
+.fc-request {
+  grid-column: 1 / -1; padding: 16px; border-radius: 14px; background: var(--sw-accent); color: #0b1a22;
+  font: 700 17px var(--ui); transition: filter .15s, transform .15s;
+}
+.fc-request:hover { filter: brightness(1.1); transform: translateY(-1px); }
+@media (max-width: 720px) {
+  .friend-card { grid-template-columns: 1fr; text-align: center; padding: 24px; }
+  .fc-avatar { margin: 0 auto; }
+  .fc-links { justify-content: center; }
+}

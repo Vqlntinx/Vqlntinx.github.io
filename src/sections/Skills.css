@@ -1,0 +1,87 @@
+.dream {
+  position: fixed; inset: 0; overflow: auto; color: #5b3d8c; font-family: 'Fredoka', 'Jua', var(--ui);
+  background: linear-gradient(180deg, #ffc3e1 0%, #ffe3f1 45%, #d6efff 100%);
+  display: grid; grid-template-rows: auto 1fr; padding: 24px 4vw 120px;
+}
+.dream { overflow-x: hidden; }
+.sky-stars, .clouds { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.dream-pill { background: #ff5fa8; box-shadow: 0 4px 0 #d23f86; }
+.sky-stars span { position: fixed; color: #fff; font-size: 18px; animation: twinkle 2.4s ease-in-out infinite; pointer-events: none; text-shadow: 0 0 8px #fff; }
+@keyframes twinkle { 50% { opacity: .2; transform: scale(.6) rotate(45deg); } }
+
+.clouds i { position: fixed; bottom: -40px; width: 340px; height: 140px; background: #fff; border-radius: 999px; pointer-events: none; opacity: .95; animation: drift 30s linear infinite; }
+.clouds i::before, .clouds i::after { content: ''; position: absolute; background: #fff; border-radius: 50%; }
+.clouds i::before { width: 160px; height: 160px; left: 40px; top: -70px; }
+.clouds i::after { width: 120px; height: 120px; right: 50px; top: -50px; }
+.clouds i:nth-child(1) { left: -5%; }
+.clouds i:nth-child(2) { left: 25%; bottom: -70px; animation-delay: -8s; }
+.clouds i:nth-child(3) { left: 55%; animation-delay: -16s; }
+.clouds i:nth-child(4) { left: 85%; bottom: -60px; animation-delay: -22s; }
+@keyframes drift { 50% { transform: translateX(-40px); } }
+
+.dream-head { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; z-index: 1; }
+.dream-head h1 {
+  margin: 0; font-size: clamp(48px, 7vw, 92px); font-weight: 700; color: #ff5fa8; letter-spacing: .02em;
+  -webkit-text-stroke: 10px #fff; paint-order: stroke fill; filter: drop-shadow(0 6px 0 #ffb3d9);
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float { 50% { transform: translateY(-8px); } }
+.stages { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.stages button {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px 8px 8px; border-radius: 999px;
+  background: #fff; color: #8a6bd1; font-weight: 600; font-size: 17px; box-shadow: 0 5px 0 #e3d4ff; transition: transform .15s;
+}
+.stages button:hover { transform: translateY(-2px); }
+.stages button.on { background: #8a6bd1; color: #fff; box-shadow: 0 5px 0 #5b3d8c; }
+.stage-no { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #ffe36b; color: #8a5a00; font-size: 14px; }
+
+.bubbles { position: relative; z-index: 1; align-self: center; display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(16px, 3vw, 40px); padding: 30px 0; }
+.bubble-skill {
+  --c: #ffb3d9; width: clamp(140px, 15vw, 190px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #fff 0 10%, color-mix(in srgb, var(--c) 60%, #fff) 30%, var(--c) 75%);
+  box-shadow: inset -10px -14px 24px rgba(0,0,0,.08), 0 14px 26px rgba(138,107,209,.25), 0 0 0 5px #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  animation: pop .5s cubic-bezier(.3,1.6,.5,1) both, bob 3.2s var(--bob, 0s) ease-in-out infinite;
+  transition: scale .15s;
+}
+.bubble-skill:hover { scale: 1.08; }
+.bubble-skill:active { scale: .94; }
+@keyframes pop { from { transform: scale(0); } }
+@keyframes bob { 50% { translate: 0 -10px; } }
+.b-icon { font-size: clamp(36px, 4vw, 52px); line-height: 1.1; }
+/* text icons: chunky rounded lettering in the bubble's darker tone */
+.b-icon.txt, .copy-icon.txt {
+  font-family: 'Fredoka', var(--ui); font-weight: 700; letter-spacing: -.02em; white-space: nowrap;
+  color: color-mix(in srgb, var(--c) 35%, #3a2a5a); text-shadow: 0 2px 0 rgba(255,255,255,.7);
+}
+.b-icon.txt.len1 { font-size: clamp(40px, 4.4vw, 56px); }
+.b-icon.txt.len2 { font-size: clamp(32px, 3.6vw, 46px); }
+.b-icon.txt.len3 { font-size: clamp(26px, 2.9vw, 38px); }
+.b-name { font-weight: 700; font-size: 16px; color: #4a2f75; }
+.b-stars { font-size: 13px; color: #ffb81c; letter-spacing: 1px; }
+.b-stars i, .copy-level i { color: rgba(255,255,255,.75); font-style: normal; }
+
+/* Copy ability get! */
+.copy-get { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; background: rgba(255,240,250,.55); backdrop-filter: blur(4px); animation: fadeIn .15s both; padding: 16px; }
+.copy-get .burst {
+  position: absolute; width: 160vmax; height: 160vmax; left: 50%; top: 50%; translate: -50% -50%; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--c) 70%, #fff) 0 10deg, #fff7 10deg 20deg);
+  animation: burstSpin 20s linear infinite, fadeIn .3s both; opacity: .7;
+}
+.copy-card {
+  position: relative; width: min(380px, 100%); padding: 40px 30px 30px; border-radius: 36px; text-align: center;
+  background: #fff; box-shadow: 0 0 0 8px var(--c), 0 24px 60px rgba(91,61,140,.35);
+  animation: copyIn .55s cubic-bezier(.3,1.6,.5,1) both;
+}
+@keyframes copyIn { from { transform: scale(.2) rotate(-20deg); opacity: 0; } }
+.copy-star { position: absolute; width: 150px; left: 50%; top: -88px; translate: -50% 0; fill: #ffd83b; stroke: #f29f1d; stroke-width: 4; stroke-linejoin: round; animation: spinStar 6s linear infinite; }
+@keyframes spinStar { to { rotate: 360deg; } }
+.copy-icon { position: absolute; left: 50%; top: -40px; translate: -50% 0; font-size: 50px; }
+.copy-icon.txt { top: -28px; font-size: 34px; color: #4a2f75; }
+.copy-label { margin: 26px 0 0; font-weight: 700; letter-spacing: .14em; color: #ff5fa8; font-size: 15px; }
+.copy-card h2 { margin: 4px 0; font-size: 40px; color: #4a2f75; }
+.copy-ability { margin: 0 0 6px; font: 400 20px 'Jua', var(--ui); color: #8a6bd1; }
+.copy-level { font-size: 24px; color: #ffb81c; letter-spacing: 2px; }
+.copy-level i { color: #eee; }
+.copy-used { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 14px; }
+.copy-used span { padding: 4px 12px; border-radius: 999px; background: color-mix(in srgb, var(--c) 40%, #fff); font-weight: 600; font-size: 13px; }

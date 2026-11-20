@@ -1,0 +1,96 @@
+.shell {
+  position: fixed; inset: 0; overflow: hidden; background: var(--sw-bg); color: var(--sw-fg);
+  display: grid; grid-template-rows: auto auto 1fr auto auto; grid-template-columns: minmax(0, 1fr);
+}
+.shell > .contact { grid-row: 3 / 5; }
+
+/* Round system icons under the cards, like a console home */
+.sys-icons { position: relative; display: flex; justify-content: center; gap: clamp(14px, 2.4vw, 34px); padding: 0 16px 26px; }
+.sys-icon {
+  position: relative; width: clamp(54px, 5.2vw, 76px); aspect-ratio: 1; border-radius: 50%;
+  display: grid; place-items: center; background: #3c3c3c; color: var(--c);
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.25); transition: transform .18s, box-shadow .18s, background .18s;
+  outline: none;
+}
+.sys-icon:hover, .sys-icon:focus-visible { transform: translateY(-3px); background: #454545; box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--sw-accent), 0 0 24px rgba(47,216,255,.5); }
+.sys-tip {
+  position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translate(-50%, 4px); white-space: nowrap;
+  padding: 5px 12px; border-radius: 6px; background: #f2f2f2; color: #2d2d2d; font: 700 13px var(--ui);
+  opacity: 0; pointer-events: none; transition: opacity .15s, transform .15s;
+}
+.sys-icon:hover .sys-tip, .sys-icon:focus-visible .sys-tip { opacity: 1; transform: translate(-50%, 0); }
+
+.shell-bg { position: absolute; inset: -10%; opacity: .32; filter: blur(48px) saturate(1.2); animation: bgIn .6s ease both; }
+.shell-bg svg { width: 100%; height: 100%; }
+@keyframes bgIn { from { opacity: 0; } }
+.shell-bg-dim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(45,45,45,.55), rgba(45,45,45,.88) 70%, #2d2d2d); }
+
+.shell-top { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 34px 50px 0; }
+.shell-avatar {
+  width: 72px; height: 72px; border-radius: 50%; padding: 4px; display: grid; place-items: center;
+  background: rgba(255,255,255,.08); transition: box-shadow .2s, transform .2s;
+}
+.shell-avatar:hover, .shell-avatar:focus-visible { box-shadow: 0 0 0 4px var(--sw-accent), 0 0 24px rgba(47,216,255,.6); transform: scale(1.05); outline: none; }
+
+.shell-status { display: flex; align-items: center; gap: 26px; font: 400 26px var(--ui); color: #e6e6e6; }
+.shell-batt { display: inline-flex; align-items: center; gap: 10px; font-size: 22px; }
+.shell-clock { font-variant-numeric: tabular-nums; font-size: 32px; letter-spacing: .02em; }
+.shell-clock .colon { animation: blink 2s steps(1) infinite; }
+@keyframes blink { 50% { opacity: .35; } }
+
+.shell-tabs { position: relative; display: flex; gap: 28px; padding: 6vh 52px 0; }
+.shell-tabs button { font: 500 clamp(22px, 2.2vw, 36px) var(--ui); color: var(--sw-dim); padding: 4px 0; transition: color .15s; position: relative; }
+.shell-tabs button:hover { color: #ddd; }
+.shell-tabs { align-items: baseline; }
+.shell-tabs .crumb { font-size: clamp(20px, 2vw, 30px); color: var(--sw-dim); }
+.shell-tabs .active { position: relative; font: 700 clamp(22px, 2.2vw, 36px) var(--ui); color: #fff; padding: 4px 0; }
+.shell-tabs .active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 3px; border-radius: 2px; background: var(--sw-accent); }
+
+/* Carousel */
+.carousel { position: relative; align-self: center; padding: 0 52px; touch-action: pan-y; cursor: grab; }
+.carousel.dragging { cursor: grabbing; }
+.track { display: flex; column-gap: 34px; will-change: transform; }
+.card-slot { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; }
+.card {
+  width: clamp(220px, 25vw, 470px); aspect-ratio: 1; border-radius: 18px; overflow: hidden; display: block;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  transform: scale(.92); transition: transform .3s cubic-bezier(.2,.9,.25,1), box-shadow .3s;
+  outline: none; position: relative;
+}
+.card svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+.card.sel { transform: scale(1); box-shadow: 0 0 0 5px #fff, 0 0 0 10px var(--sw-accent), 0 0 40px rgba(47,216,255,.55); animation: selPulse 1.6s ease-in-out infinite; }
+@keyframes selPulse { 50% { box-shadow: 0 0 0 5px #fff, 0 0 0 10px var(--sw-accent-2), 0 0 60px rgba(47,216,255,.8); } }
+.card:not(.sel):hover { transform: scale(.95); }
+.card-label { margin-top: 28px; text-align: center; font: 700 clamp(18px, 1.8vw, 30px) var(--ui); opacity: 0; transform: translateY(-6px); transition: all .25s; white-space: nowrap; }
+.card-slot.sel .card-label { opacity: 1; transform: none; }
+
+.shell.launching .card.launch { animation: launch .52s cubic-bezier(.6,0,.4,1) forwards; z-index: 10; }
+@keyframes launch { to { transform: scale(3.2); opacity: 0; filter: brightness(1.4); } }
+.shell.launching .card:not(.launch), .shell.launching .card-label { opacity: 0; transition: opacity .3s; }
+
+.shell-hints {
+  position: relative; display: flex; justify-content: flex-end; gap: 36px; padding: 20px 50px 36px;
+  font: 400 clamp(15px, 1.4vw, 24px) var(--ui); color: #ddd; border-top: 1px solid rgba(255,255,255,.08); margin: 0 30px;
+}
+.shell-hints span { display: inline-flex; align-items: center; gap: 12px; }
+.hint-key { font-style: normal; font-size: .75em; letter-spacing: .1em; opacity: .9; }
+.shell-hints .btn-glyph { font-style: normal; }
+
+@media (max-width: 720px) {
+  .shell-top { padding: 20px 18px 0; }
+  .shell-avatar { width: 52px; height: 52px; }
+  .shell-avatar svg, .shell-avatar img { width: 44px; height: 44px; }
+  .shell-status { gap: 12px; font-size: 18px; }
+  .shell-batt { font-size: 14px; }
+  .shell-clock { font-size: 20px; }
+  .shell-wifi { display: none; }
+  .shell-tabs { padding: 4vh 20px 0; gap: 18px; }
+  .carousel { padding: 0 20px; }
+  .card { width: 64vw; }
+  .shell-hints { display: none; }
+  .sys-icons { padding-bottom: 34px; }
+}
+@media (hover: none) { .shell-hints span:first-child { display: none; } }
+
+/* card cover images (when supplied instead of the built-in SVG art) */
+.card img.card-img, .shell-bg img.card-img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }

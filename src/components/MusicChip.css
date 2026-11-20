@@ -1,0 +1,43 @@
+/* ♪ music chip: bottom-right on every page that has music */
+.music { position: fixed; right: 20px; bottom: 18px; z-index: 60; transition: opacity .3s; }
+.music.hidden { opacity: 0; pointer-events: none; }
+.music-chip {
+  background: rgba(30,20,10,.55) !important; color: #fff; backdrop-filter: blur(6px);
+  cursor: pointer; opacity: .85; transition: opacity .2s, box-shadow .2s;
+}
+.music:hover .music-chip, .music:focus-within .music-chip { opacity: 1; }
+/* while music is on: a soft pulsing ring around the chip */
+.music.playing .music-chip { opacity: 1; box-shadow: 0 0 0 2px rgba(255,217,138,.75); animation: musicPulse 2.4s ease-in-out infinite; }
+@keyframes musicPulse { 50% { box-shadow: 0 0 0 2px rgba(255,217,138,.75), 0 0 14px rgba(255,217,138,.6); } }
+
+/* hover card: credit + volume */
+.music-card {
+  position: absolute; right: 0; bottom: 100%; width: max-content; max-width: min(420px, calc(100vw - 40px));
+  margin-bottom: 10px; padding: 12px 14px; border-radius: 12px;
+  background: rgba(30,20,10,.86); color: #fff8e6; backdrop-filter: blur(8px);
+  font: 400 12px/1.55 var(--ui); text-align: right;
+  opacity: 0; translate: 0 6px; pointer-events: none; transition: opacity .2s, translate .2s;
+}
+.music-card::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 14px; } /* hover bridge */
+.music:hover .music-card, .music:focus-within .music-card { opacity: 1; translate: 0 0; pointer-events: auto; }
+.music-credit b { font-weight: 700; }
+.music-credit a { color: #ffd98a; text-decoration: underline; text-underline-offset: 2px; }
+
+.music-volume { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,248,230,.15); }
+.music-volume svg { flex: none; opacity: .8; }
+.music-vol-num { width: 28px; text-align: right; font: 600 12px var(--ui); font-variant-numeric: tabular-nums; }
+.music-volume input[type=range] {
+  flex: 1; min-width: 150px; height: 6px; appearance: none; -webkit-appearance: none; border-radius: 3px; cursor: pointer;
+  background: linear-gradient(90deg, #ffd98a var(--v), rgba(255,248,230,.2) var(--v));
+}
+.music-volume input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #fff8e6;
+  box-shadow: 0 0 0 3px rgba(255,217,138,.55), 0 2px 4px rgba(0,0,0,.4);
+}
+.music-volume input[type=range]::-moz-range-thumb {
+  width: 16px; height: 16px; border: 0; border-radius: 50%; background: #fff8e6;
+  box-shadow: 0 0 0 3px rgba(255,217,138,.55), 0 2px 4px rgba(0,0,0,.4);
+}
+
+/* Experience: keep the chip over the map, left of the quest panel */
+@media (min-width: 861px) { .music.over-map { right: 400px; } }

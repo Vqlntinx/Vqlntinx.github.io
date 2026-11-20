@@ -1,0 +1,88 @@
+.adv { position: fixed; inset: 0; background: #0d1a1c; color: #f3e2b0; font-family: 'Cinzel', 'Nanum Myeongjo', serif; display: grid; grid-template-columns: 1fr minmax(300px, 380px); }
+.adv-pill { background: rgba(10,20,20,.7); border: 1px solid rgba(243,226,176,.5); }
+
+/* Map viewport + camera-driven world */
+.adv-map { position: relative; overflow: hidden; cursor: grab; touch-action: none; background: #0b1618; user-select: none; }
+.adv-map.grabbing { cursor: grabbing; }
+.world { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; --inv: 1; }
+.world .terrain, .world-img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.trail-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.trail { fill: none; stroke: #f3e2b0; stroke-width: 3; stroke-dasharray: 10 8; opacity: .9; vector-effect: non-scaling-stroke; animation: trail 1.6s linear infinite; }
+@keyframes trail { to { stroke-dashoffset: -36; } }
+.map-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 120px rgba(0,0,0,.65); }
+
+/* zoom controls */
+.zoom-ctl {
+  position: absolute; right: 26px; top: 100px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 8px; border-radius: 999px; background: rgba(10,20,20,.65); border: 1px solid rgba(243,226,176,.4);
+}
+.zoom-ctl button { width: 34px; height: 34px; border-radius: 50%; color: #f3e2b0; font-size: 18px; line-height: 1; transition: background .15s, color .15s; }
+.zoom-ctl button:hover { background: #f3e2b0; color: #0d1a1c; }
+.zoom-bar { width: 6px; height: 80px; border-radius: 3px; background: rgba(243,226,176,.18); display: flex; align-items: flex-end; overflow: hidden; }
+.zoom-bar i { display: block; width: 100%; background: #7ff3ff; box-shadow: 0 0 8px #7ff3ff; border-radius: 3px; }
+.zoom-focus { font-size: 16px !important; }
+
+/* pins keep a constant on-screen size: scale(var(--inv)) undoes the world zoom */
+/* Map marker: a round badge on a short stem whose tip touches (x, y), so the painted
+   landmark underneath stays visible. */
+.pin {
+  position: absolute; width: 48px; height: 64px; z-index: 2;
+  transform: translate(-50%, -100%) scale(var(--inv)); transform-origin: 50% 100%;
+  transition: filter .3s;
+}
+.pin svg {
+  position: absolute; left: 0; top: 0; width: 48px; height: 48px; padding: 6px; border-radius: 50%;
+  background: rgba(13,26,28,.85); border: 2px solid #f3e2b0;
+  box-shadow: 0 4px 10px rgba(0,0,0,.55); transition: transform .2s; transform-origin: 50% 100%;
+}
+.pin::after { /* stem */
+  content: ''; position: absolute; left: 50%; top: 44px; translate: -50% 0;
+  border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 18px solid #f3e2b0;
+  filter: drop-shadow(0 3px 2px rgba(0,0,0,.5));
+}
+.pin:hover svg { transform: translateY(-4px) scale(1.1); }
+.pin.sel svg { border-color: #7ff3ff; box-shadow: 0 0 0 3px rgba(127,243,255,.35), 0 0 18px #7ff3ff; }
+.pin.sel::after { border-top-color: #7ff3ff; }
+.pin.fog { filter: grayscale(.8) brightness(.75); }
+.pin.sel::before { /* pulse ring at the tip, on the landmark */
+  content: ''; position: absolute; left: 50%; top: 100%; width: 54px; height: 22px; translate: -50% -50%;
+  border-radius: 50%; border: 2px solid #7ff3ff; box-shadow: 0 0 14px #7ff3ff; animation: ping 1.6s ease-out infinite;
+}
+@keyframes ping { from { transform: scale(.4); opacity: 1; } to { transform: scale(1.4); opacity: 0; } }
+.pin-label {
+  position: absolute; left: 50%; bottom: calc(100% + 4px); transform: translateX(-50%); white-space: nowrap;
+  padding: 5px 12px; background: rgba(10,20,20,.82); border: 1px solid rgba(243,226,176,.5); border-radius: 4px;
+  font: 700 16px 'Cinzel', 'Nanum Myeongjo', serif; letter-spacing: .04em; opacity: 0; transition: opacity .2s;
+}
+.pin:hover .pin-label, .pin.sel .pin-label { opacity: 1; }
+
+.compass { position: absolute; right: 22px; top: 20px; width: 64px; animation: sway 6s ease-in-out infinite; }
+@keyframes sway { 50% { transform: rotate(8deg); } }
+.hearts { position: absolute; left: 24px; bottom: 22px; display: flex; gap: 4px; font-size: 28px; color: rgba(255,255,255,.18); text-shadow: 0 2px 4px #000; }
+.hearts .full { color: #ff4f5e; }
+
+.quest {
+  position: relative; padding: 80px 34px 34px; display: flex; flex-direction: column; gap: 10px;
+  background: linear-gradient(180deg, rgba(14,26,28,.96), rgba(8,16,18,.98)); border-left: 1px solid rgba(243,226,176,.25);
+  animation: questIn .45s ease-out both;
+}
+@keyframes questIn { from { opacity: 0; transform: translateX(20px); } }
+.quest::before, .quest::after { content: ''; position: absolute; left: 20px; right: 20px; height: 1px; background: linear-gradient(90deg, transparent, #f3e2b0, transparent); opacity: .5; }
+.quest::before { top: 60px; } .quest::after { bottom: 20px; }
+.q-period { font-size: 13px; letter-spacing: .3em; color: #7ff3ff; }
+.q-place { margin: 0; font-size: clamp(26px, 2.4vw, 36px); font-weight: 700; color: #fff4d0; line-height: 1.15; text-shadow: 0 0 18px rgba(255,220,140,.35); }
+.q-title { font-family: var(--ui); font-size: 16px; color: #d8cfae; }
+.q-rule { height: 10px; background: radial-gradient(circle, #f3e2b0 2px, transparent 3px) center / 14px 10px repeat-x; opacity: .5; margin: 8px 0; }
+.q-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; font-family: var(--ui); }
+.q-list li { position: relative; padding: 12px 14px 12px 38px; background: rgba(243,226,176,.06); border: 1px solid rgba(243,226,176,.18); border-radius: 4px; font-size: 15px; color: #f5ecd0; animation: questIn .4s ease-out both; }
+.q-list li::before { content: '◆'; position: absolute; left: 14px; top: 11px; color: #ffb347; font-size: 13px; }
+.q-nav { margin-top: auto; display: flex; align-items: center; justify-content: space-between; font-size: 14px; letter-spacing: .2em; }
+.q-nav button { width: 42px; height: 42px; border: 1px solid rgba(243,226,176,.5); border-radius: 50%; color: #f3e2b0; transition: all .15s; }
+.q-nav button:hover:not(:disabled) { background: #f3e2b0; color: #0d1a1c; }
+.q-nav button:disabled { opacity: .25; cursor: default; }
+
+@media (max-width: 860px) {
+  .adv { grid-template-columns: 1fr; grid-template-rows: 55vh auto; overflow: auto; }
+  .quest { padding-top: 34px; }
+  .quest::before { top: 16px; }
+}
