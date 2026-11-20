@@ -7,7 +7,7 @@ import { games } from '../data/games.js';
 import { reads } from '../data/reads.js';
 import Avatar from './Avatar.jsx';
 import KoreaFlag from './KoreaFlag.jsx';
-import { LinkIcon } from './Contact.jsx';
+import { LinkIcon, useCopied, emailOf } from './Contact.jsx';
 import './Panels.css';
 
 const pickOther = (n, not) => {
@@ -24,6 +24,8 @@ export default function ProfileModal({ onClose }) {
   const [q, setQ] = useState(() => Math.floor(Math.random() * Math.max(1, quotes.length)));
   const [spin, setSpin] = useState(0);
   const quote = quotes[q];
+  const [copied, copy] = useCopied();
+  const email = emailOf(profile.links);
 
   // play time = age in years + months, recalculated from today's date
   const age = useMemo(() => ageParts(), []);
@@ -69,11 +71,19 @@ export default function ProfileModal({ onClose }) {
             ))}
           </div>
           <div className="up-links">
-            {profile.links.map((l) => (
-              <a key={l.id} href={l.href} target="_blank" rel="noreferrer" aria-label={l.label} title={l.label}>
-                <LinkIcon id={l.id} />
-              </a>
-            ))}
+            {profile.links.map((l) =>
+              l.id === 'email' ? (
+                // email: click copies the address instead of opening a mail app
+                <button key={l.id} className={'up-copy' + (copied ? ' copied' : '')} onClick={() => copy(email)} aria-label={L({ ko: '이메일 복사', en: 'Copy email' })} title={email}>
+                  <LinkIcon id={l.id} />
+                  <span className="up-copied" aria-live="polite">{copied ? L({ ko: '복사됨 ✓', en: 'Copied ✓' }) : ''}</span>
+                </button>
+              ) : (
+                <a key={l.id} href={l.href} target="_blank" rel="noopener noreferrer" aria-label={l.label} title={l.label}>
+                  <LinkIcon id={l.id} />
+                </a>
+              )
+            )}
           </div>
         </div>
         <button className="up-close" onClick={onClose}><span className="btn-glyph">B</span></button>

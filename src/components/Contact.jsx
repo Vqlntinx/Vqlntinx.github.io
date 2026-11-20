@@ -18,14 +18,35 @@ export function LinkIcon({ id, size = 26 }) {
   return <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">{p[id] ?? p.blog}</svg>;
 }
 
+// Copy text to the clipboard (with a fallback for browsers that block the Clipboard API)
+export async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; } catch { /* fall back below */ }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;left:-9999px';
+    document.body.appendChild(ta); ta.select();
+    const ok = document.execCommand('copy');
+    ta.remove();
+    return ok;
+  } catch { return false; }
+}
+
+export const emailOf = (links) => links.find((l) => l.id === 'email')?.href.replace('mailto:', '');
+
+// [copied, copy]: copy(text) copies and flips `copied` on for a moment
+export function useCopied(ms = 1600) {
+  const [copied, setCopied] = useState(false);
+  const copy = async (text) => {
+    if (await copyText(text)) { setCopied(true); sfx.select(); setTimeout(() => setCopied(false), ms); }
+  };
+  return [copied, copy];
+}
+
 // "Friend card" style contact panel inside the console shell.
 export default function Contact() {
   const { L } = usePrefs();
-  const [copied, setCopied] = useState(false);
-  const email = profile.links.find((l) => l.id === 'email')?.href.replace('mailto:', '');
-  const copy = async () => {
-    try { await navigator.clipboard.writeText(email); setCopied(true); sfx.select(); setTimeout(() => setCopied(false), 1600); } catch { /* ignore */ }
-  };
+  const [copied, copy] = useCopied();
+  const email = emailOf(profile.links);
   return (
     <section className="contact page-enter">
       <div className="friend-card">
@@ -34,18 +55,20 @@ export default function Contact() {
           <h2>{L(profile.name)}</h2>
           <p className="fc-code">{profile.friendCode}</p>
           <div className="fc-links">
-            {profile.links.map((l) => (
-              <a key={l.id} href={l.href} target={l.id === 'email' ? undefined : '_blank'} rel="noreferrer" onMouseEnter={() => sfx.tick()}>
-                <LinkIcon id={l.id} /><span>{l.label}</span>
-              </a>
-            ))}
+            {profile.links.map((l) =>
+              l.id === 'email' ? (
+                // email: click copies the address instead of opening a mail app
+                <button key={l.id} className={copied ? 'copied' : ''} onClick={() => copy(email)} onMouseEnter={() => sfx.tick()} title={email}>
+                  <LinkIcon id={l.id} /><span>{copied ? L({ ko: '복사됨 ✓', en: 'Copied ✓' }) : l.label}</span>
+                </button>
+              ) : (
+                <a key={l.id} href={l.href} target="_blank" rel="noopener noreferrer" onMouseEnter={() => sfx.tick()}>
+                  <LinkIcon id={l.id} /><span>{l.label}</span>
+                </a>
+              )
+            )}
           </div>
         </div>
-        {email && (
-          <button className="fc-request" onClick={copy}>
-            {copied ? '✓ ' + L({ ko: '복사됨', en: 'Copied' }) : '＋ ' + L({ ko: '친구 요청 (이메일 복사)', en: 'Friend request (copy email)' })}
-          </button>
-        )}
       </div>
     </section>
   );
