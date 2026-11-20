@@ -9,8 +9,17 @@
   animation: roomIn 1.6s ease-out both;
 }
 @keyframes roomIn { from { filter: brightness(1.6) blur(8px); transform: translate(-50%,-50%) scale(1.06); } }
-/* portrait screens: keep the console (centre ≈ 42.4%, 58.5%) in view */
-@media (max-aspect-ratio: 1/1) { .stage { transform: translate(-42.4%, -55%); animation: none; } }
+/* Portrait screens (phones): size the room from the visible screen height (the .intro box,
+   so mobile address bars can't open a gap), centred vertically so it always reaches the
+   bottom edge, and shifted sideways so the console (centre ≈ 42.4% across) is in the middle.
+   101% leaves no 1px seam from rounding while keeping the console as large as possible. */
+@media (max-aspect-ratio: 1/1) {
+  .stage {
+    width: auto; height: 101%;
+    transform: translate(-42.4%, -50%);
+    animation: none;
+  }
+}
 
 .room { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: fill; }
 
