@@ -1,5 +1,6 @@
 // ✏️ 추억 = RPG 세이브 파일. image에 사진 경로(public 폴더 기준, 예: './memories/jeju.jpg')를 넣으세요.
 // 비워두면 scene 색으로 그린 장면이 대신 나옵니다. party는 함께한 사람(이모지).
+// level = 그때 내 나이. 사이트에서는 level이 높은 것(최근)부터 위에 자동 정렬돼요 — 여기 순서는 상관없어요.
 export const memories = [
   { id: 'm1', date: '2025.08.14', playtime: '72:00', level: 29, image: null,
     scene: ['#ffb36b', '#ff6b8b', '#3a2a5a'], icon: '🌅',

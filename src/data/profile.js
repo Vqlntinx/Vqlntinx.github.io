@@ -4,7 +4,7 @@ export const profile = {
   role: { ko: '주니어 개발자', en: 'Junior Developer' },
   avatar: './avatar.webp', // 마스코트 이미지 (public/avatar.webp)
   birth: '2000-08-28',
-  friendCode: 'SW-VQLN-TINX-2000',
+  friendCode: 'tkzksktm01@gmail.com',
   links: [
     { id: 'email', label: 'Email', href: 'mailto:tkzksktm01@gmail.com' },
     { id: 'github', label: 'GitHub', href: 'https://github.com/Vqlntinx' },

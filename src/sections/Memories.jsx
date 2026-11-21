@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
 import { usePrefs } from '../lib/i18n.jsx';
 import { sfx } from '../lib/sound.js';
-import { memories } from '../data/memories.js';
+import { memories as allMemories } from '../data/memories.js';
 import HomePill from '../components/HomePill.jsx';
 import './Memories.css';
+
+// Newest save on top: highest Lv first, whatever order the data file uses.
+// Same Lv → the later date first (dates are 'YYYY.MM.DD', so text order is time order).
+const memories = [...allMemories].sort(
+  (a, b) => (b.level ?? 0) - (a.level ?? 0) || String(b.date ?? '').localeCompare(String(a.date ?? ''))
+);
 
 // Classic JRPG "Load game" menu: every memory is a save file you can load and replay.
 export default function Memories() {
