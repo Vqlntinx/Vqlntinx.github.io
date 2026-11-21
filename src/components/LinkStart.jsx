@@ -57,7 +57,15 @@ export default function LinkStart({ onEnterHome, onDone }) {
     let last = t0;
     const timers = [];
 
-    skipRef.current = () => { t0 = performance.now() - T.rings * 1000 / speed; };
+    // Click = skip ahead, never back: before the rings → jump to the rings;
+    // during rings / typing / the pause → go straight to the fade into home
+    // (the text shows complete). Clicks during the fade do nothing.
+    skipRef.current = () => {
+      const now = performance.now();
+      const t = ((now - t0) / 1000) * speed;
+      const to = t < T.rings ? T.rings : t < T.fade ? T.fade : null;
+      if (to !== null) t0 = now - (to * 1000) / speed;
+    };
 
     const frame = (now) => {
       const t = ((now - t0) / 1000) * speed;
