@@ -1,5 +1,7 @@
 // ✏️ 플레이한 게임 = 도감 항목. types는 장르(TYPE_COLORS 키), rating 1~5, hours = 플레이 시간.
 // cover에 이미지 경로를 넣으면 자동 생성 아트 대신 표시됩니다.
+// icon에 게임 아이콘 경로(예: './games/hollow-knight.png')를 넣으면 3D로 떠서 빙글빙글 도는 아이콘이 나와요(cover보다 우선).
+//   public/games/ 폴더에 넣고, 배경이 투명한 정사각형 PNG/WebP가 가장 예뻐요.
 export const TYPE_COLORS = {
   RPG: '#7c5cff', Action: '#ff5a4e', Adventure: '#33b864', Puzzle: '#f5b400', Strategy: '#2f8cff',
   Platformer: '#ff8a3d', Shooter: '#8a8f99', Sim: '#2ec4b6', Indie: '#ff6fb5', Roguelike: '#9c4dcc',

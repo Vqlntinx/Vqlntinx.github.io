@@ -21,6 +21,33 @@
 .dex-screen { position: relative; border-radius: 8px; overflow: hidden; background: #1d1d2b; padding: 10px; box-shadow: inset 0 0 0 4px #333; }
 .cover { aspect-ratio: 16 / 9; border-radius: 4px; overflow: hidden; display: grid; place-items: center; background: #9fd4a8; }
 .cover svg, .cover img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+/* 3D spinning game icon (set `icon` in games.js) */
+.coin-stage {
+  position: relative; width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden;
+  background: radial-gradient(circle at 50% 38%, rgba(255,255,255,.85), var(--a) 48%, var(--b));
+  perspective: 900px;
+}
+.coin-bob { animation: coinBob 2.6s ease-in-out infinite; transform-style: preserve-3d; }
+@keyframes coinBob { 0%, 100% { transform: translateY(-7%); } 50% { transform: translateY(5%); } }
+.coin-spin {
+  --size: clamp(84px, 56cqh, 220px); position: relative; width: var(--size); height: var(--size);
+  transform-style: preserve-3d; animation: coinSpin 5s linear infinite;
+}
+.cover { container-type: size; }
+@keyframes coinSpin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+.cover .coin-spin img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+  image-rendering: auto; border-radius: 18%; backface-visibility: hidden; user-select: none;
+}
+.cover .coin-spin .coin-slice { transform: translateZ(calc(var(--z) * 1px)); filter: brightness(.45) saturate(1.2); backface-visibility: visible; }
+.cover .coin-spin .front { transform: translateZ(calc(12 * .5px + .5px)); filter: drop-shadow(0 0 1px rgba(0,0,0,.35)); }
+.cover .coin-spin .back { transform: rotateY(180deg) translateZ(calc(12 * .5px + .5px)); }
+.coin-shadow {
+  position: absolute; left: 50%; bottom: 9%; width: 26%; height: 6%; translate: -50% 0; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0,0,0,.35), transparent); animation: coinShadow 2.6s ease-in-out infinite;
+}
+@keyframes coinShadow { 0%, 100% { scale: .75; opacity: .55; } 50% { scale: 1.05; opacity: .9; } }
+
 .scan { position: absolute; inset: 10px; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.12) 0 2px, transparent 2px 4px); }
 .scan::after { content: ''; position: absolute; left: 0; right: 0; height: 30%; background: linear-gradient(transparent, rgba(255,255,255,.18), transparent); animation: scan 2.4s linear infinite; }
 @keyframes scan { from { top: -30%; } to { top: 100%; } }

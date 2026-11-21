@@ -9,7 +9,31 @@ import './Games.css';
 // Creature-dex style handheld: every game I've played is a registered entry.
 const no = (n) => 'No.' + String(n).padStart(3, '0');
 
+// The game's own icon as a thick 3D coin: floats up and down in the middle of the screen
+// while it spins. The edge is the icon itself stacked in darkened slices, so it follows
+// the icon's real shape (transparent PNGs get a shaped rim, square icons a tile rim).
+const SLICES = 12;
+function IconCoin({ g }) {
+  const [a, b] = g.types.map((t) => TYPE_COLORS[t]);
+  return (
+    <div className="coin-stage" style={{ '--a': a, '--b': b ?? a }}>
+      <div className="coin-bob">
+        <div className="coin-spin">
+          {Array.from({ length: SLICES }, (_, i) => (
+            <img key={i} className="coin-slice" src={g.icon} alt="" draggable="false"
+              style={{ '--z': i - (SLICES - 1) / 2 }} />
+          ))}
+          <img className="coin-face front" src={g.icon} alt={g.title} draggable="false" />
+          <img className="coin-face back" src={g.icon} alt="" draggable="false" />
+        </div>
+      </div>
+      <div className="coin-shadow" />
+    </div>
+  );
+}
+
 function Cover({ g }) {
+  if (g.icon) return <IconCoin g={g} />;
   if (g.cover) return <img src={g.cover} alt="" />;
   const [a, b] = g.types.map((t) => TYPE_COLORS[t]);
   // deterministic 6×6 symmetric pixel "creature" from the title
