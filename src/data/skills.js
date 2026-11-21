@@ -13,21 +13,21 @@ export const skills = [
   // ── 언어 ──
   { id: 'c', stage: 'code', icon: 'C', color: '#a8c8ff', level: 5, name: 'C', ability: { ko: '절차지향 언어', en: 'Procedural language' }, usedIn: [] },
   { id: 'cpp', stage: 'code', icon: 'C++', color: '#8fb3ff', level: 5, name: 'C++', ability: { ko: '객체지향 언어', en: 'Object-oriented language' }, usedIn: ['Suribot', 'Chronobreak'] },
-  { id: 'csharp', stage: 'code', icon: 'C#', color: '#c4b5ff', level: 5, name: 'C#', ability: { ko: '.NET · Unity 스크립팅', en: '.NET · Unity scripting' }, usedIn: ['FFF'] },
-  { id: 'python', stage: 'code', icon: '🐍', color: '#ffe08a', level: 5, name: 'Python', ability: { ko: '스크립트 언어', en: 'Scripting language' }, usedIn: [] },
-  { id: 'java', stage: 'code', icon: '☕', color: '#ffc4a8', level: 4, name: 'Java', ability: { ko: '객체지향 언어', en: 'Object-oriented language' }, usedIn: [] },
-  { id: 'html', stage: 'code', icon: '</>', color: '#ffb3a0', level: 4, name: 'HTML5', ability: { ko: '웹 마크업', en: 'Web markup' }, usedIn: [] },
-  { id: 'css', stage: 'code', icon: '{ }', color: '#9ad7ff', level: 4, name: 'CSS3', ability: { ko: '웹 스타일링', en: 'Web styling' }, usedIn: [] },
-  { id: 'js', stage: 'code', icon: 'JS', color: '#fff09a', level: 4, name: 'JavaScript', ability: { ko: '웹 스크립트', en: 'Web scripting' }, usedIn: [] },
+  { id: 'csharp', stage: 'code', icon: 'C#', color: '#c4b5ff', level: 4, name: 'C#', ability: { ko: '.NET · Unity 스크립팅', en: '.NET · Unity scripting' }, usedIn: ['FFF'] },
+  { id: 'python', stage: 'code', icon: '🐍', color: '#ffe08a', level: 4, name: 'Python', ability: { ko: '스크립트 언어', en: 'Scripting language' }, usedIn: [] },
+  { id: 'java', stage: 'code', icon: '☕', color: '#ffc4a8', level: 3, name: 'Java', ability: { ko: '객체지향 언어', en: 'Object-oriented language' }, usedIn: [] },
+  { id: 'html', stage: 'code', icon: '</>', color: '#ffb3a0', level: 3, name: 'HTML5', ability: { ko: '웹 마크업', en: 'Web markup' }, usedIn: [] },
+  { id: 'css', stage: 'code', icon: '{ }', color: '#9ad7ff', level: 3, name: 'CSS3', ability: { ko: '웹 스타일링', en: 'Web styling' }, usedIn: [] },
+  { id: 'js', stage: 'code', icon: 'JS', color: '#fff09a', level: 3, name: 'JavaScript', ability: { ko: '웹 스크립트', en: 'Web scripting' }, usedIn: [] },
   { id: 'markdown', stage: 'code', icon: 'M↓', color: '#d9dde6', level: 5, name: 'Markdown', ability: { ko: '문서 작성', en: 'Documentation' }, usedIn: [] },
-  { id: 'yaml', stage: 'code', icon: 'Y:', color: '#ffb8e6', level: 5, name: 'YAML', ability: { ko: '설정 파일', en: 'Configuration' }, usedIn: [] },
+  { id: 'yaml', stage: 'code', icon: 'Y:', color: '#ffb8e6', level: 4, name: 'YAML', ability: { ko: '설정 파일', en: 'Configuration' }, usedIn: [] },
   { id: 'uml', stage: 'code', icon: '◇', color: '#b8f0d0', level: 5, name: 'UML', ability: { ko: '설계 모델링', en: 'Design modeling' }, usedIn: [] },
-  { id: 'sql', stage: 'code', icon: 'SQL', color: '#a8f0b0', level: 4, name: 'ANSI SQL', ability: { ko: '데이터베이스 질의', en: 'Database queries' }, usedIn: [] },
+  { id: 'sql', stage: 'code', icon: 'SQL', color: '#a8f0b0', level: 3, name: 'ANSI SQL', ability: { ko: '데이터베이스 질의', en: 'Database queries' }, usedIn: [] },
 
   // ── IDEs & Tools ──  ✏️ 별은 임시로 4
   { id: 'vs', stage: 'tools', icon: 'VS', color: '#c4b5ff', level: 4, name: 'Visual Studio', ability: { ko: '통합 개발 환경', en: 'IDE' }, usedIn: [] },
-  { id: 'vscode', stage: 'tools', icon: '⌨️', color: '#9ad7ff', level: 4, name: 'VS Code', ability: { ko: '코드 에디터', en: 'Code editor' }, usedIn: [] },
-  { id: 'oracle', stage: 'tools', icon: '🛢️', color: '#ffb3a0', level: 4, name: 'Oracle', ability: { ko: '관계형 데이터베이스', en: 'Relational database' }, usedIn: [] },
+  { id: 'vscode', stage: 'tools', icon: '⌨️', color: '#9ad7ff', level: 5, name: 'VS Code', ability: { ko: '코드 에디터', en: 'Code editor' }, usedIn: [] },
+  { id: 'oracle', stage: 'tools', icon: '🛢️', color: '#ffb3a0', level: 3, name: 'Oracle', ability: { ko: '관계형 데이터베이스', en: 'Relational database' }, usedIn: [] },
   { id: 'mysql', stage: 'tools', icon: '🐬', color: '#a8e6ff', level: 4, name: 'MySQL', ability: { ko: '관계형 데이터베이스', en: 'Relational database' }, usedIn: [] },
   { id: 'rocksdb', stage: 'tools', icon: '🪨', color: '#d9dde6', level: 4, name: 'RocksDB', ability: { ko: '키-값 저장소', en: 'Key-value store' }, usedIn: ['Chronobreak'] },
   { id: 'unity', stage: 'tools', icon: '🎮', color: '#cfd6e4', level: 5, name: 'Unity', ability: { ko: '게임 엔진', en: 'Game engine' }, usedIn: ['FFF'] },
@@ -36,12 +36,12 @@ export const skills = [
   // ── 외국어 ──
   { id: 'english', stage: 'lang', icon: '💬', color: '#9ad7ff', level: 4, name: 'English', ability: { ko: '비즈니스 가능', en: 'Business level' }, usedIn: ['TOEIC Speaking AL (2026.10)'] },
   { id: 'german', stage: 'lang', icon: '🥨', color: '#ffe08a', level: 3, name: 'German', ability: { ko: '일상 대화 가능', en: 'Conversational' }, usedIn: ['Goethe-Zertifikat A1 (2026.05)', '독일학전공'] },
-  { id: 'japanese', stage: 'lang', icon: '🗾', color: '#ffc4d6', level: 3, name: 'Japanese', ability: { ko: '일상 대화 가능', en: 'Conversational' }, usedIn: [] }, // ✏️ 별은 임시로 3
+  { id: 'japanese', stage: 'lang', icon: '🗾', color: '#ffc4d6', level: 2, name: 'Japanese', ability: { ko: '기초 및 일상 대화 가능', en: 'Conversational' }, usedIn: [] }, // ✏️ 별은 임시로 3
 
   // ── 협업 · 리더십 ──
-  { id: 'lead', stage: 'team', icon: '🧭', color: '#ffb3d9', level: 4, name: 'Team Lead', ability: { ko: '3인 팀 리더 · 스크럼 마스터', en: 'Led a 3-person team as scrum master' }, usedIn: ['FFF'] },
-  { id: 'notion', stage: 'team', icon: '🗂️', color: '#c4b5ff', level: 4, name: 'Notion', ability: { ko: '일정 · 이슈 공유', en: 'Schedule & issue tracking' }, usedIn: ['FFF'] },
-  { id: 'community', stage: 'team', icon: '🎙️', color: '#a8f0b0', level: 4, name: 'Community', ability: { ko: '100명+ 디스코드 서버 운영', en: 'Ran a 100+ member Discord server' }, usedIn: ['Discord'] },
+  { id: 'lead', stage: 'team', icon: '🧭', color: '#ffb3d9', level: 4, name: 'Team Lead', ability: { ko: '3인 팀 리더 · 스크럼 마스터 경험', en: 'Led a 3-person team as scrum master' }, usedIn: ['FFF'] },
+  { id: 'notion', stage: 'team', icon: '🗂️', color: '#c4b5ff', level: 4, name: 'Notion', ability: { ko: '일정 체계화 · 이슈 공유', en: 'Schedule & issue tracking' }, usedIn: ['FFF'] },
+  { id: 'community', stage: 'team', icon: '🎙️', color: '#a8f0b0', level: 4, name: 'Community', ability: { ko: '300명+ 디스코드 서버 운영 경험', en: 'Ran a 100+ member Discord server' }, usedIn: ['Discord'] },
 
   // ── 자격 ──
   { id: 'license', stage: 'cert', icon: '🚗', color: '#ffc4a8', level: 3, name: { ko: '운전면허 1종 보통', en: "Driver's License (Class 1)" }, ability: { ko: '경기남부지방경찰청 (2020.09)', en: 'Issued 2020.09' }, usedIn: ['2020.09'] },

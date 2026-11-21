@@ -13,10 +13,10 @@ import './HomeShell.css';
 //    Left as null, the card uses its built-in SVG art.
 export const CARDS = [
   { id: 'projects', label: { ko: '프로젝트', en: 'Projects' }, image: './cards/projects.webp' },
-  { id: 'experience', label: { ko: '경험', en: 'Experience' }, image: './cards/experience.webp' },
-  { id: 'skills', label: { ko: '스킬', en: 'Skills' }, image: './cards/skills.webp' },
-  { id: 'games', label: { ko: '게임 도감', en: 'Games' }, image: null },
-  { id: 'reads', label: { ko: '독서', en: 'Reads' }, image: './cards/reads.webp' },
+  { id: 'experience', label: { ko: '경험', en: 'Experiences' }, image: './cards/experience.webp' },
+  { id: 'skills', label: { ko: '기술 스택', en: 'Skills' }, image: './cards/skills.webp' },
+  { id: 'games', label: { ko: '게임 도감', en: 'Games that I\'ve played' }, image: null },
+  { id: 'reads', label: { ko: '독서', en: 'Books that I\'ve read' }, image: './cards/reads.webp' },
 ];
 
 // a card's cover: the supplied image, or the built-in SVG art

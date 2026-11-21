@@ -62,21 +62,36 @@
 .hearts .full { color: #ff4f5e; }
 
 .quest {
-  position: relative; padding: 80px 34px 34px; display: flex; flex-direction: column; gap: 10px;
+  position: relative; padding: 80px 34px 0; display: flex; flex-direction: column; gap: 10px;
   background: linear-gradient(180deg, rgba(14,26,28,.96), rgba(8,16,18,.98)); border-left: 1px solid rgba(243,226,176,.25);
   animation: questIn .45s ease-out both;
+  min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: rgba(243,226,176,.4) transparent;
 }
 @keyframes questIn { from { opacity: 0; transform: translateX(20px); } }
 .quest::before, .quest::after { content: ''; position: absolute; left: 20px; right: 20px; height: 1px; background: linear-gradient(90deg, transparent, #f3e2b0, transparent); opacity: .5; }
 .quest::before { top: 60px; } .quest::after { bottom: 20px; }
 .q-period { font-size: 13px; letter-spacing: .3em; color: #7ff3ff; }
 .q-place { margin: 0; font-size: clamp(26px, 2.4vw, 36px); font-weight: 700; color: #fff4d0; line-height: 1.15; text-shadow: 0 0 18px rgba(255,220,140,.35); }
-.q-title { font-family: var(--ui); font-size: 16px; color: #d8cfae; }
+.q-title { font-family: var(--ui); font-size: 16px; line-height: 1.6; color: #d8cfae; white-space: pre-line; }
 .q-rule { height: 10px; background: radial-gradient(circle, #f3e2b0 2px, transparent 3px) center / 14px 10px repeat-x; opacity: .5; margin: 8px 0; }
 .q-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; font-family: var(--ui); }
 .q-list li { position: relative; padding: 12px 14px 12px 38px; background: rgba(243,226,176,.06); border: 1px solid rgba(243,226,176,.18); border-radius: 4px; font-size: 15px; color: #f5ecd0; animation: questIn .4s ease-out both; }
 .q-list li::before { content: '◆'; position: absolute; left: 14px; top: 11px; color: #ffb347; font-size: 13px; }
+/* quest text keeps its own line breaks (
+) */
+.q-list li { white-space: pre-line; }
+/* the write-up: a plain rule, then long-form paragraphs */
+.q-divider { width: 100%; margin: 14px 0 4px; border: 0; border-top: 1px solid rgba(243,226,176,.35); }
+.q-story { font-family: var(--ui); font-size: 15px; line-height: 1.8; color: #e9e0c2; word-break: keep-all; }
+.q-story p { margin: 0 0 14px; white-space: pre-line; animation: questIn .4s ease-out both; }
+.q-story p:last-child { margin-bottom: 0; }
+.q-story strong { color: #ffd98a; font-weight: 700; }
 .q-nav { margin-top: auto; display: flex; align-items: center; justify-content: space-between; font-size: 14px; letter-spacing: .2em; }
+.q-nav {
+  position: sticky; bottom: 0; z-index: 1; padding: 14px 0 34px;
+  background: linear-gradient(180deg, rgba(8,16,18,0), rgba(8,16,18,.97) 35%);
+}
 .q-nav button { width: 42px; height: 42px; border: 1px solid rgba(243,226,176,.5); border-radius: 50%; color: #f3e2b0; transition: all .15s; }
 .q-nav button:hover:not(:disabled) { background: #f3e2b0; color: #0d1a1c; }
 .q-nav button:disabled { opacity: .25; cursor: default; }

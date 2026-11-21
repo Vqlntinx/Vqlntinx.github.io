@@ -65,6 +65,22 @@ function PlaceholderTerrain() {
   );
 }
 
+// Long-form write-up under the quests: blank lines split paragraphs, **text** is bold,
+// a single line break stays a line break.
+function Story({ text }) {
+  return (
+    <div className="q-story">
+      {text.trim().split(/\n\s*\n/).map((para, i) => (
+        <p key={i} style={{ animationDelay: 0.3 + i * 0.08 + 's' }}>
+          {para.split(/(\*\*[^*]+\*\*)/).map((part, j) =>
+            part.startsWith('**') && part.endsWith('**') ? <strong key={j}>{part.slice(2, -2)}</strong> : part
+          )}
+        </p>
+      ))}
+    </div>
+  );
+}
+
 export default function Experience() {
   const { L } = usePrefs();
   const [sel, setSel] = useState(experience.length - 1);
@@ -314,6 +330,12 @@ export default function Experience() {
         <ul className="q-list">
           {e.quests.map((q, i) => <li key={i} style={{ animationDelay: 0.15 + i * 0.12 + 's' }}>{L(q)}</li>)}
         </ul>
+        {e.story && L(e.story) && (
+          <>
+            <hr className="q-divider" />
+            <Story text={L(e.story)} />
+          </>
+        )}
         <div className="q-nav">
           <button disabled={sel === 0} onClick={() => select(sel - 1)} aria-label="Previous">◀</button>
           <span>{sel + 1} / {experience.length}</span>
