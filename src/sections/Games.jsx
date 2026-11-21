@@ -9,27 +9,78 @@ import './Games.css';
 // Creature-dex style handheld: every game I've played is a registered entry.
 const no = (n) => 'No.' + String(n).padStart(3, '0');
 
-// The game's own icon as a thick 3D coin: floats up and down in the middle of the screen
-// while it spins. The edge is the icon itself stacked in darkened slices, so it follows
-// the icon's real shape (transparent PNGs get a shaped rim, square icons a tile rim).
-const SLICES = 12;
+// The game's own icon as a thick 3D coin: floats up and down in the middle of the screen.
+// The edge is the icon itself stacked in darkened slices, so it follows the icon's real shape.
+// Every icon spins a full 360°. The back face is the icon mirrored, as if seen from behind
+// through the coin. Wide logos get a wider coin.
+// Override per game with iconMotion: 'spin' (default) | 'loop' (front only, edge to edge) | 'sway'.
+const SLICES = 16; // keep in step with --depth in Games.css
 function IconCoin({ g }) {
-  const [a, b] = g.types.map((t) => TYPE_COLORS[t]);
+  const [a, b] = g.types.map((t) => TYPE_COLORS[t]).filter(Boolean);
+  const [wide, setWide] = useState(false);
+  const motion = g.iconMotion ?? 'spin';
+  const onLoad = (e) => setWide(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight > 1.25);
   return (
-    <div className="coin-stage" style={{ '--a': a, '--b': b ?? a }}>
+    <div className={'coin-stage ' + motion + (wide ? ' wide' : '')} style={{ '--a': a ?? '#8a8f99', '--b': b ?? a ?? '#5b6070' }}>
       <div className="coin-bob">
         <div className="coin-spin">
           {Array.from({ length: SLICES }, (_, i) => (
             <img key={i} className="coin-slice" src={g.icon} alt="" draggable="false"
               style={{ '--z': i - (SLICES - 1) / 2 }} />
           ))}
-          <img className="coin-face front" src={g.icon} alt={g.title} draggable="false" />
+          <img className="coin-face front" src={g.icon} alt={g.title} draggable="false" onLoad={onLoad} />
           <img className="coin-face back" src={g.icon} alt="" draggable="false" />
         </div>
       </div>
       <div className="coin-shadow" />
     </div>
   );
+}
+
+// Long notes: drift slowly down, rest at the end, fade back to the top and go again.
+// Hovering or scrolling by hand pauses it; it picks up again after a moment.
+function AutoScrollNote({ children }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let raf, last = performance.now(), phase = 'top', until = last + 2500, pausedUntil = 0, hover = false, pos = 0;
+    const SPEED = 16; // px per second
+    const hold = () => { pausedUntil = performance.now() + 3000; };
+    const enter = () => { hover = true; }, leave = () => { hover = false; pos = el.scrollTop; hold(); };
+    el.addEventListener('wheel', hold, { passive: true });
+    el.addEventListener('touchstart', hold, { passive: true });
+    el.addEventListener('pointerenter', enter);
+    el.addEventListener('pointerleave', leave);
+    const tick = (now) => {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      const max = el.scrollHeight - el.clientHeight;
+      if (max > 2 && !hover && now >= pausedUntil) {
+        if (Math.abs(el.scrollTop - pos) > 2) pos = el.scrollTop; // the reader moved it
+        if (phase === 'top' && now >= until) phase = 'down';
+        if (phase === 'down') {
+          pos = Math.min(max, pos + SPEED * dt);
+          el.scrollTop = pos;
+          if (pos >= max) { phase = 'bottom'; until = now + 2500; }
+        } else if (phase === 'bottom' && now >= until) {
+          phase = 'fade'; el.classList.add('fading'); until = now + 450;
+        } else if (phase === 'fade' && now >= until) {
+          pos = 0; el.scrollTop = 0; el.classList.remove('fading'); phase = 'top'; until = now + 2500;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener('wheel', hold);
+      el.removeEventListener('touchstart', hold);
+      el.removeEventListener('pointerenter', enter);
+      el.removeEventListener('pointerleave', leave);
+    };
+  }, []);
+  return <p className="entry-note" ref={ref}>{children}</p>;
 }
 
 function Cover({ g }) {
@@ -121,7 +172,7 @@ export default function Games() {
               <div><dt>RATING</dt><dd className="stars">{'★'.repeat(g.rating)}<i>{'★'.repeat(5 - g.rating)}</i></dd></div>
               <div><dt>SINCE</dt><dd>{g.year}</dd></div>
             </dl>
-            <p className="entry-note">{L(g.note)}</p>
+            <AutoScrollNote>{L(g.note)}</AutoScrollNote>
           </section>
 
           <section className="dex-list-wrap">

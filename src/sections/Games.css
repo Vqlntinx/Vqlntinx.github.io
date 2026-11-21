@@ -18,7 +18,7 @@
 .dex-body { display: grid; grid-template-columns: minmax(300px, 1fr) minmax(280px, 1fr); gap: 22px; min-height: 0; }
 .dex-entry { background: #f0f0e8; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: inset 0 0 0 4px #c9c9be; overflow: auto; animation: entryIn .3s ease-out both; }
 @keyframes entryIn { from { opacity: .3; } }
-.dex-screen { position: relative; border-radius: 8px; overflow: hidden; background: #1d1d2b; padding: 10px; box-shadow: inset 0 0 0 4px #333; }
+.dex-screen { flex: none; position: relative; border-radius: 8px; overflow: hidden; background: #1d1d2b; padding: 10px; box-shadow: inset 0 0 0 4px #333; }
 .cover { aspect-ratio: 16 / 9; border-radius: 4px; overflow: hidden; display: grid; place-items: center; background: #9fd4a8; }
 .cover svg, .cover img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
 /* 3D spinning game icon (set `icon` in games.js) */
@@ -34,14 +34,35 @@
   transform-style: preserve-3d; animation: coinSpin 5s linear infinite;
 }
 .cover { container-type: size; }
+/* wide / text logos get a wider coin with square corners */
+.coin-stage.wide .coin-spin { width: min(calc(var(--size) * 1.9), 78cqw); }
+.coin-stage.wide .coin-spin img { border-radius: 0; }
+.coin-stage.loop .coin-spin { animation: coinHalfTurn 2.6s linear infinite; }
+.coin-stage.sway .coin-spin { animation: coinSway 4.2s ease-in-out infinite; }
+@keyframes coinHalfTurn { from { transform: rotateY(-90deg); } to { transform: rotateY(90deg); } }
+@keyframes coinSway { 0%, 100% { transform: rotateY(-26deg); } 50% { transform: rotateY(26deg); } }
 @keyframes coinSpin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
 .cover .coin-spin img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
   image-rendering: auto; border-radius: 18%; backface-visibility: hidden; user-select: none;
 }
-.cover .coin-spin .coin-slice { transform: translateZ(calc(var(--z) * 1px)); filter: brightness(.45) saturate(1.2); backface-visibility: visible; }
-.cover .coin-spin .front { transform: translateZ(calc(12 * .5px + .5px)); filter: drop-shadow(0 0 1px rgba(0,0,0,.35)); }
-.cover .coin-spin .back { transform: rotateY(180deg) translateZ(calc(12 * .5px + .5px)); }
+.cover .coin-spin { --depth: 16; }
+.cover .coin-spin .coin-slice { transform: translateZ(calc(var(--z) * 1px)); filter: brightness(.5) saturate(1.15); backface-visibility: visible; }
+.cover .coin-spin .front { transform: translateZ(calc(var(--depth) * .5px + .5px)); }
+/* seen from behind: the icon mirrored, like looking through the coin */
+.cover .coin-spin .back { transform: rotateY(180deg) translateZ(calc(var(--depth) * .5px + .5px)) scaleX(-1); }
+/* full spin: each face darkens as it turns away from the light (in step with coinSpin), so the
+   hand-over from front to back at the edge reads as one smooth turn instead of a swap */
+.coin-stage.spin .coin-spin .front { animation: faceLitFront 5s linear infinite; }
+.coin-stage.spin .coin-spin .back { animation: faceLitBack 5s linear infinite; }
+@keyframes faceLitFront {
+  0%, 100% { filter: brightness(1); } 8.33%, 91.67% { filter: brightness(.95); }
+  16.67%, 83.33% { filter: brightness(.8); } 25%, 75% { filter: brightness(.55); }
+}
+@keyframes faceLitBack {
+  0%, 25%, 75%, 100% { filter: brightness(.55); } 33.33%, 66.67% { filter: brightness(.8); }
+  41.67%, 58.33% { filter: brightness(.95); } 50% { filter: brightness(1); }
+}
 .coin-shadow {
   position: absolute; left: 50%; bottom: 9%; width: 26%; height: 6%; translate: -50% 0; border-radius: 50%;
   background: radial-gradient(closest-side, rgba(0,0,0,.35), transparent); animation: coinShadow 2.6s ease-in-out infinite;
@@ -62,7 +83,13 @@
 .entry-stats dd { margin: 0; font: 900 18px var(--ui); }
 .stars { color: #f5a623; letter-spacing: 1px; font-size: 15px !important; }
 .stars i { color: #ddd; font-style: normal; }
-.entry-note { margin: 0; padding: 12px 14px; background: #fff; border-radius: 8px; font: 500 15px var(--ui); line-height: 1.5; box-shadow: inset 0 0 0 2px #e0e0d6; }
+.entry-note {
+  margin: 0; padding: 12px 14px; background: #fff; border-radius: 8px; font: 500 15px var(--ui); line-height: 1.5; box-shadow: inset 0 0 0 2px #e0e0d6;
+  /* takes whatever height is left under the screen; long notes scroll inside (see AutoScrollNote) */
+  flex: 1 1 auto; min-height: 4.6em; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #c9c9be transparent;
+  transition: opacity .4s;
+}
+.entry-note.fading { opacity: 0; }
 
 .dex-list-wrap { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
 .dex-filter { display: flex; flex-wrap: wrap; gap: 6px; }
