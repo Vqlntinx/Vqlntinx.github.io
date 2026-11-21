@@ -95,7 +95,8 @@ export default function Projects() {
         <span className="bush b1" /><span className="bush b2" />
       </div>
 
-      {/* level card */}
+      {/* level card + what I did / learned, stacked in the middle row */}
+      <div className="lc-wrap">
       <section className="level-card" key={p.id} style={{ '--c': p.color }}>
         <div className="lc-icon">{p.icon}</div>
         <div className="lc-body">
@@ -127,6 +128,24 @@ export default function Projects() {
           </div>
         </div>
       </section>
+
+      {(p.did?.length > 0 || p.learned?.length > 0) && (
+        <section className="quest-log" key={'q' + p.id} style={{ '--c': p.color }}>
+          {p.did?.length > 0 && (
+            <div className="ql-col">
+              <h3><span className="ql-ico">🛠</span>{lang === 'ko' ? '핵심 기여' : 'Key contributions'}</h3>
+              <ul>{p.did.map((d, i) => <li key={i} style={{ '--i': i }}>{L(d)}</li>)}</ul>
+            </div>
+          )}
+          {p.learned?.length > 0 && (
+            <div className="ql-col learned">
+              <h3><span className="ql-ico">💡</span>{lang === 'ko' ? '배운 점' : 'What I learned'}</h3>
+              <ul>{p.learned.map((d, i) => <li key={i} style={{ '--i': i + (p.did?.length || 0) }}>{L(d)}</li>)}</ul>
+            </div>
+          )}
+        </section>
+      )}
+      </div>
 
       {/* the level */}
       <section className="level">

@@ -41,10 +41,17 @@
 .plat .bush { position: absolute; bottom: 64px; width: 120px; height: 40px; background: #80d010; border: 4px solid #005800; border-bottom: 0; border-radius: 40px 40px 0 0; }
 .plat .bush.b1 { left: 30%; } .bush.b2 { left: 72%; width: 90px; }
 
+/* Middle row: the level card with the quest log under it (scrolls on short screens) */
+.plat .lc-wrap {
+  position: relative; z-index: 3; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  padding: 3vh 16px 4px; scrollbar-width: thin; scrollbar-color: #fff transparent;
+}
+
 /* Level card (the project panel) */
 .plat .level-card {
-  position: relative; z-index: 3; align-self: start; justify-self: center; margin-top: 3vh;
-  width: min(980px, calc(100% - 32px)); display: grid; grid-template-columns: auto 1fr minmax(200px, 280px); gap: 22px; align-items: center;
+  position: relative; z-index: 3; flex: none;
+  width: min(980px, 100%); display: grid; grid-template-columns: auto 1fr minmax(200px, 280px); gap: 22px; align-items: center;
   padding: 20px 24px; background: #000; border: 4px solid #fff; box-shadow: 0 0 0 4px #000, 8px 8px 0 4px rgba(0,0,0,.3);
   animation: cardDrop .35s steps(5) both;
 }
@@ -78,6 +85,33 @@
 .plat .pipe-btn.light { color: #111; background: linear-gradient(90deg, #f6f6f6 0 20%, #fff 20% 35%, #ececec 35% 80%, #cfcfcf 80%); border-color: #111; box-shadow: 0 4px 0 #111; }
 .plat .pipe-btn:hover { transform: translateY(-2px); }
 .plat .pipe-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #002800; }
+
+/* Quest log: what I did / what I learned on this project */
+.plat .quest-log {
+  flex: none; width: min(980px, 100%); display: grid; grid-template-columns: 1.35fr 1fr; gap: 26px;
+  padding: 18px 24px 20px; background: rgba(0,0,0,.84); border: 4px solid #fff;
+  box-shadow: 0 0 0 4px #000, 8px 8px 0 4px rgba(0,0,0,.3);
+  animation: cardDrop .35s .08s steps(5) both;
+}
+.plat .ql-col h3 {
+  display: flex; align-items: center; gap: 8px; margin: 0 0 12px; padding-bottom: 10px;
+  border-bottom: 3px dashed rgba(255,255,255,.35);
+  font: 400 clamp(17px, 1.6vw, 20px)/1.2 'Jua', var(--ui); color: #ffd23b; letter-spacing: .02em;
+}
+.plat .ql-col.learned h3 { color: #7ee0ff; }
+.plat .ql-ico { font-size: 18px; }
+.plat .ql-col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+.plat .ql-col li {
+  position: relative; padding-left: 20px;
+  font: 500 15px/1.55 var(--ui); color: #eee; word-break: keep-all;
+  animation: qlIn .3s calc(.15s + var(--i) * .05s) steps(4) both;
+}
+.plat .ql-col li::before {
+  content: ''; position: absolute; left: 2px; top: .55em; width: 8px; height: 8px;
+  background: var(--c); box-shadow: 2px 2px 0 rgba(255,255,255,.25);
+}
+.plat .ql-col.learned li::before { background: #7ee0ff; }
+@keyframes qlIn { from { opacity: 0; transform: translateX(-8px); } }
 
 /* Level */
 .plat .level { position: relative; z-index: 2; height: clamp(250px, 40vh, 380px); align-self: end; }
@@ -144,12 +178,16 @@
 
 @media (max-width: 860px) {
   .plat .hud { padding: 70px 12px 0; gap: 14px; }
-  .plat .level-card { grid-template-columns: auto 1fr; padding: 16px; gap: 14px; margin-top: 2vh; }
+  .plat .level-card { grid-template-columns: auto 1fr; padding: 16px; gap: 14px; }
+  .plat .lc-wrap { padding-top: 2vh; }
+  .plat .quest-log { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+  .plat .ql-col li { font-size: 14px; }
   .plat .lc-stats { grid-column: 1 / -1; }
   .plat .flag, .plat .bush { display: none; }
   .plat .pipe.left { display: none; }
 }
 @media (max-height: 760px) and (min-width: 861px) {
-  .plat .level-card { margin-top: 1.5vh; padding: 14px 20px; }
+  .plat .lc-wrap { padding-top: 1.5vh; }
+  .plat .level-card { padding: 14px 20px; }
   .plat .lc-body p { margin-bottom: 8px; }
 }

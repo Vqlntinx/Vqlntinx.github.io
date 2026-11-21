@@ -2,6 +2,7 @@
 // stats는 0~100 (⭐ impact / 🍄 scale / 🔥 craft) — 지금 값은 임시라 직접 조정하세요.
 // stack: 기술 태그(없으면 [] 로 두면 숨겨져요)
 // links: github / notion / demo — 있는 것만 버튼으로 나와요.
+// did: 내가 담당한 일 / learned: 배운 점 — 카드 아래 패널에 나와요(없으면 그 칸은 숨겨져요).
 export const projects = [
   { id: 'suribot', icon: '🤖', color: '#5865f2', year: 2024,
     name: { ko: 'Suribot', en: 'Suribot' },
@@ -9,14 +10,37 @@ export const projects = [
     summary: { ko: '디스코드 음성 채널 체류 시간을 기록하고 /순위 · /업타임으로 조회하는 봇', en: 'Discord bot that logs voice-channel time, with /ranking and /uptime commands' },
     stack: ['C++', 'D++', 'CMake'],
     stats: { impact: 70, scale: 55, craft: 75 }, // ✏️ 임시 값
-    links: { github: 'https://github.com/Vqlntinx/Suribot' } },
+    links: { github: 'https://github.com/Vqlntinx/Suribot' },
+    did: [
+      { ko: '기획부터 구현·운영까지 혼자 진행하였습니다. (D++ 라이브러리 기반)', en: 'Built and ran it solo, end to end, on the D++ library' },
+      { ko: '음성 채널 입장 · 이동 · 퇴장 이벤트로 체류 시간을 재고 누적량을 집계하였습니다.', en: 'Measured time per voice session from join / move / leave events and kept running totals' },
+      { ko: '/순위(상위 5명) · /업타임 슬래시 등 유저 명령을 구현했습니다.', en: 'Implemented user commands such as /ranking (top 5) and /uptime' },
+      { ko: '누적 데이터를 JSON으로 저장 · 복구하는 시스템을 구현했습니다.', en: 'Built a system that saves and restores the totals as JSON' },
+      { ko: '봇 토큰 · 채널 ID를 환경변수로 나누어 관리하였습니다.', en: 'Kept the bot token and channel ID separate, in environment variables' },
+    ],
+    learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
+      { ko: '여러 이벤트가 동시에 들어올 때 mutex로 공유 데이터를 지키는 법 (상태 락 · 파일 락 분리)', en: 'Guarding shared state with mutexes when events arrive concurrently (separate state and file locks)' },
+      { ko: '운영 데이터와 비밀 값은 저장소에 올리지 않는 습관', en: 'Keeping live data and secrets out of the repository' },
+      { ko: '외부 C++ 라이브러리 위에서 빌드 · 의존성을 관리하는 경험', en: 'Managing builds and dependencies on top of an external C++ library' },
+    ] },
   { id: 'chronobreak', icon: '⏪', color: '#2f8cff', year: 2025,
     name: { ko: 'Chronobreak (RocksDB)', en: 'Chronobreak (RocksDB)' },
-    role: { ko: '개인 프로젝트', en: 'Personal project' },
+    role: { ko: '팀 프로젝트', en: 'Team project' },
     summary: { ko: 'RocksDB 기반 세션 로그 저장소 · 세션을 과거 시점으로 되돌리는 ChronoBreak와 컴팩션 필터 구현', en: 'RocksDB session-log store with ChronoBreak rollback and a custom compaction filter' },
     stack: ['C++', 'RocksDB'],
     stats: { impact: 65, scale: 70, craft: 80 }, // ✏️ 임시 값
-    links: { github: 'https://github.com/Vqlntinx/RocksDB_ChronobreakFilter' } },
+    links: { github: 'https://github.com/Vqlntinx/RocksDB_ChronobreakFilter' },
+    did: [
+      { ko: 'RocksDB 컴팩션 필터(ChronobreakFilter)를 설계 · 구현하였습니다. 기준 시간이 지난 로그를 컴팩션 때 정리되도록 하였습니다.', en: 'Designed and built the RocksDB compaction filter (ChronobreakFilter), dropping expired logs during compaction' },
+      { ko: '초기 LogDB(저장 · 조회 · 수동 컴팩션, msgpack 직렬화)를 직접 작성하였습니다.', en: 'Wrote the first LogDB: store, read and manual compaction, with msgpack serialization' },
+      { ko: 'JSONL 로그를 시간 순서대로 재생해 넣는 테스트 드라이버를 작성하였습니다.', en: 'Wrote a driver that replays JSONL logs in time order' },
+      { ko: 'db_bench에 필터를 붙여 순차 · 균등 · 시계열 워크로드에서 기본 설정과 그 성능을 비교 실험하였습니다.', en: 'Plugged the filter into db_bench and benchmarked it against the default settings on sequential, uniform and time-series workloads' },
+    ],
+    learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
+      { ko: 'LSM 트리와 컴팩션의 동작 — 삭제를 컴팩션 시점으로 미루는 설계', en: 'How LSM trees and compaction work, and deferring deletes to compaction time' },
+      { ko: '키의 바이트 순서가 RocksDB 정렬 순서를 정한다는 점 (big-endian 키)', en: 'That key byte order sets RocksDB\'s sort order (big-endian keys)' },
+      { ko: '벤치마크 수치로 설계를 검증하는 방법', en: 'Checking a design with benchmark numbers' },
+    ] },
   { id: 'fff', icon: '🎮', color: '#ff7a3d', year: 2026,
     name: { ko: "게임 'FFF'", en: "Game 'FFF'" },
     role: { ko: '팀 리더 · 스크럼 마스터', en: 'Team Lead · Scrum Master' },
@@ -26,7 +50,19 @@ export const projects = [
     links: {
       github: 'https://github.com/Vqlntinx/FFF',
       notion: 'https://app.notion.com/p/5-Forge-Project-Hwatu-3f7198ad3d8183649653010d32900c36?source=copy_link',
-    } },
+    },
+    did: [
+      { ko: '팀 리더 · 스크럼 마스터 — 요구사항 조율, Notion으로 일정 · 이슈 관리', en: 'Team lead and scrum master: aligned requirements, ran schedule and issues in Notion' },
+      { ko: '게임 전체 흐름(GameManager · SceneLoader)과 씬 구조 설계', en: 'Designed the game flow (GameManager, SceneLoader) and scene structure' },
+      { ko: '시드 기반 로그라이크 맵 생성(MapGenerator)과 맵 UI', en: 'Seed-based roguelike map generation (MapGenerator) and the map UI' },
+      { ko: '화투 카드 데이터(ScriptableObject) · 덱 시스템 · 섯다 족보 판정', en: 'Hwatu card data (ScriptableObjects), the deck system and Seotda hand judging' },
+      { ko: '사운드 시스템, 카드 · 전투 애니메이션, 로딩 화면, 상단 HUD, 상점 UI', en: 'Sound system, card and battle animations, loading screen, top HUD and shop UI' },
+    ],
+    learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
+      { ko: '브랜치 전략과 PR 머지로 3명이 동시에 작업할 때 충돌 줄이기', en: 'Using a branch strategy and PR merges to keep three people from colliding' },
+      { ko: '씬 · 매니저 · UI 컴포넌트로 역할을 나눠 병렬 개발이 가능한 구조', en: 'Splitting work into scenes, managers and UI components so it can be built in parallel' },
+      { ko: '우선순위를 정해 마감 안에 범위를 맞추는 일정 관리', en: 'Setting priorities to fit the scope into the deadline' },
+    ] },
 ];
 
 /* 제외한 프로젝트 (다시 넣고 싶으면 위 배열로 옮기세요)
