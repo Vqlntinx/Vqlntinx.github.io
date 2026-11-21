@@ -6,26 +6,14 @@ export const worldMap = { image: './world-map.webp', width: 6144, height: 4096 }
 // 오래된 것부터 순서대로 (그 순서대로 길이 이어져요).
 // kind(지도 아이콘): school | village | cafe | arena | beacon | castle | tower | shrine
 export const experience = [
-  { id: 'ashley', kind: 'cafe', x: 45.5, y: 71, period: '2019.12 – 2020.02',
-    place: { ko: '애슐리퀸즈 평택점', en: "Ashley Queens, Pyeongtaek" },
-    title: { ko: '아르바이트 · 매장 메이트', en: 'Part-time · Store crew' },
-    quests: [{ ko: '매장 메이트로 근무', en: 'Worked as store crew' }] },
   { id: 'dku', kind: 'school', x: 12.5, y: 55.5, period: '2020.03 – 2026.08',
     place: { ko: '단국대학교', en: 'Dankook University' },
     title: { ko: '유럽중남미학부 독일학전공 · 소프트웨어학과 복수전공', en: 'German Studies · Double major in Software' },
     quests: [{ ko: '졸업요건 충족 (졸업 유예)', en: 'Graduation requirements met (graduation deferred)' }] },
-  { id: 'galbi', kind: 'village', x: 34, y: 43.5, period: '2021.01 – 2021.04',
-    place: { ko: '북촌삼대갈비 소사벌점', en: 'Bukchon Samdae Galbi, Sosabeol' },
-    title: { ko: '아르바이트 · 홀 / 운영', en: 'Part-time · Floor & operations' },
-    quests: [{ ko: '홀 업무', en: 'Floor service' }, { ko: '지점 운영관리 및 마감 정산', en: 'Store operations and closing settlement' }] },
   { id: 'lol', kind: 'arena', x: 49, y: 35, period: '2023.01 – 2023.07',
     place: { ko: 'LoL 대학 대표팀', en: 'LoL University Team' },
     title: { ko: '단국대학교 대표', en: 'Representing Dankook University' },
     quests: [{ ko: '경기게임문화센터배 대학교 대항전 참가', en: 'Competed in the Gyeonggi Game Culture Center inter-university cup' }] },
-  { id: 'brunch', kind: 'cafe', x: 63, y: 52, period: '2023.09 – 2023.11',
-    place: { ko: '어나더 브런치카페', en: 'Another Brunch Cafe' },
-    title: { ko: '아르바이트 · 주방 / 카페', en: 'Part-time · Kitchen & cafe' },
-    quests: [{ ko: '주방 및 카페 업무 담당', en: 'Handled kitchen and cafe work' }] },
   { id: 'discord', kind: 'beacon', x: 80, y: 74, period: '2024.07 – 2025.02',
     place: { ko: '게임 커뮤니티 (Discord)', en: 'Game Community (Discord)' },
     title: { ko: '서버 운영진', en: 'Server moderator' },
@@ -35,6 +23,20 @@ export const experience = [
     title: { ko: '3인 팀 리더 · 스크럼 마스터', en: 'Team Lead · Scrum Master (3-person team)' },
     quests: [{ ko: '요구사항 조율', en: 'Aligned requirements' }, { ko: 'Notion으로 일정·이슈 공유', en: 'Shared schedule and issues in Notion' }, { ko: "게임 'FFF' 완성", en: "Shipped the game 'FFF'" }] },
 ];
+
+// 빼둔 경험 (아르바이트). 다시 보이게 하려면 위 배열의 시기 순서 자리에 주석을 풀어 넣으세요.
+//   { id: 'ashley', kind: 'cafe', x: 45.5, y: 71, period: '2019.12 – 2020.02',
+//     place: { ko: '애슐리퀸즈 평택점', en: "Ashley Queens, Pyeongtaek" },
+//     title: { ko: '아르바이트 · 매장 메이트', en: 'Part-time · Store crew' },
+//     quests: [{ ko: '매장 메이트로 근무', en: 'Worked as store crew' }] },
+//   { id: 'galbi', kind: 'village', x: 34, y: 43.5, period: '2021.01 – 2021.04',
+//     place: { ko: '북촌삼대갈비 소사벌점', en: 'Bukchon Samdae Galbi, Sosabeol' },
+//     title: { ko: '아르바이트 · 홀 / 운영', en: 'Part-time · Floor & operations' },
+//     quests: [{ ko: '홀 업무', en: 'Floor service' }, { ko: '지점 운영관리 및 마감 정산', en: 'Store operations and closing settlement' }] },
+//   { id: 'brunch', kind: 'cafe', x: 63, y: 52, period: '2023.09 – 2023.11',
+//     place: { ko: '어나더 브런치카페', en: 'Another Brunch Cafe' },
+//     title: { ko: '아르바이트 · 주방 / 카페', en: 'Part-time · Kitchen & cafe' },
+//     quests: [{ ko: '주방 및 카페 업무 담당', en: 'Handled kitchen and cafe work' }] },
 
 /* 예시 데이터 (형식 참고용, 사이트에는 나오지 않아요)
 const exampleExperience = [
