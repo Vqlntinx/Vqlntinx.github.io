@@ -85,3 +85,6 @@
 .copy-level i { color: #eee; }
 .copy-used { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 14px; }
 .copy-used span { padding: 4px 12px; border-radius: 999px; background: color-mix(in srgb, var(--c) 40%, #fff); font-weight: 600; font-size: 13px; }
+
+/* full-screen rays behind the ability card */
+@keyframes burstSpin { to { transform: rotate(360deg); } }

@@ -43,13 +43,3 @@ img { -webkit-user-drag: none; }
 
 .page-enter { animation: pageIn .55s cubic-bezier(.2,.8,.2,1) both; }
 @keyframes pageIn { from { opacity: 0; transform: scale(1.04); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
-
-/* Reduced motion (e.g. Windows "Animation effects" off): small decorative animations
-   (jumps, twinkles, bobbing, cursors) keep playing — they're part of the site's character.
-   Only the big, full-screen motion is toned down. (Link Start also runs 3× faster in JS.) */
-@media (prefers-reduced-motion: reduce) {
-  .page-enter { animation: pageFade .3s ease both; }      /* no zoom + blur between pages */
-  .stage { animation: none; }                              /* no blurry zoom-in on the room */
-  .copy-get .burst { animation: none; }                    /* no full-screen spinning rays */
-}
-@keyframes pageFade { from { opacity: 0; } }

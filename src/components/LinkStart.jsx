@@ -29,8 +29,7 @@ export default function LinkStart({ onEnterHome, onDone }) {
   const skipRef = useRef(null);
 
   useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const speed = reduce ? 3 : 1;
+    const speed = 1; // always full length (no reduced-motion speed-up)
     const cv = canvas.current;
     const ctx = cv.getContext('2d');
     let W, H, dpr;
