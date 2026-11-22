@@ -63,6 +63,28 @@ export const projects = [
       { ko: '씬 · 매니저 · UI 컴포넌트로 역할을 나눠 병렬 개발이 가능한 구조', en: 'Splitting work into scenes, managers and UI components so it can be built in parallel' },
       { ko: '우선순위를 정해 마감 안에 범위를 맞추는 일정 관리', en: 'Setting priorities to fit the scope into the deadline' },
     ] },
+  { id: 'ninano', icon: '🌊', color: '#1fa7c9', year: 2026,
+    name: { ko: 'NINANO (엘니냐와 라니뇨)', en: 'NINANO' },
+    role: { ko: '해커톤 · 3인 팀 · 웹 시뮬레이션 담당', en: 'Hackathon · 3-person team · Web simulation' },
+    summary: { ko: '제2회 JDC 해커톤 · 생성형 AI 기후 모델(cBottle) 결과를 슬라이더로 탐색하는 엘니뇨·라니냐 웹 시뮬레이션', en: '2nd JDC Hackathon · an El Niño / La Niña web simulation exploring results from a generative AI climate model (cBottle)' },
+    stack: ['React', 'TypeScript', 'WebGL2', 'cBottle', 'FastAPI'],
+    stats: { impact: 75, scale: 70, craft: 80 }, // ✏️ 임시 값
+    links: {
+      demo: 'https://www.youtube.com/watch?v=tZYHsdUNgAM',
+      github: 'https://github.com/Vqlntinx/ninano',
+    },
+    did: [
+      { ko: '1박 2일 해커톤에서 노트북 2대로 나눠, 한쪽은 NVIDIA 기후 모델 추론, 다른 쪽은 결과를 보여 줄 웹 시뮬레이션을 병렬로 개발했습니다.', en: 'In a two-day hackathon we split across two laptops: one ran the NVIDIA climate model, the other built the web simulation for its output.' },
+      { ko: '팀은 cBottle에 수온·바람만 바꿔 넣어 기온·강수·기압·수증기를 모델이 채우게 하고, 같은 seed로 253개 조건(수온 23단계 × 무역풍 11단계)을 미리 생성했습니다.', en: 'The team fed cBottle changed sea temperature and wind, let the model fill in temperature, rain, pressure and water vapour, and pre-generated 253 conditions (23 SST × 11 wind steps) with a fixed seed.' },
+      { ko: '추론 결과를 브라우저가 복사 없이 읽는 raw Float32 형식으로 받도록 데이터 형식을 맞추고 로더를 구현했습니다.', en: 'Agreed a raw Float32 data format the browser reads without copying, and built the loader for it' },
+      { ko: 'React · WebGL2로 5종 기후 변수 지도, 바람 입자 애니메이션, 3D 지구, ENSO 진단 패널을 구현했습니다.', en: 'Built maps for five climate variables, wind-particle animation, a 3D globe and an ENSO panel in React and WebGL2' },
+      { ko: '96MiB LRU 캐시와 이전 요청 취소로 슬라이더 조작 시 끊김을 없앴고, 0.5° 다운샘플로 데이터를 6.9GB → 1.8GB로 줄였습니다.', en: 'Kept the sliders smooth with a 96 MiB LRU cache and request cancelling, and cut the data from 6.9 GB to 1.8 GB with 0.5° downsampling' },
+    ],
+    learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
+      { ko: '데이터 형식을 먼저 맞춰 두면 모델 쪽과 웹 쪽이 서로를 기다리지 않고 병렬로 일할 수 있다는 것', en: 'Agreeing the data format first lets the model side and the web side work in parallel without waiting on each other' },
+      { ko: 'diffusion 모델은 실행마다 결과가 달라서, 같은 seed로 비교해야 입력 변화의 효과만 볼 수 있다는 점', en: 'Diffusion models vary per run, so only a fixed seed isolates the effect of a changed input' },
+      { ko: '무거운 AI 추론은 미리 계산해 두고, 화면은 가볍게 읽기만 하게 나누는 설계', en: 'Precomputing heavy AI inference so the page only has to read light files' },
+    ] },
 ];
 
 /* 제외한 프로젝트 (다시 넣고 싶으면 위 배열로 옮기세요)
