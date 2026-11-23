@@ -1,4 +1,6 @@
-.dex { position: fixed; inset: 0; display: grid; place-items: center; padding: 70px 3vw 3vh; background: radial-gradient(circle at 30% 20%, #4a5068, #1b1d2a 70%); overflow: auto; }
+.dex { position: fixed; inset: 0; display: grid; place-items: center; padding: 70px 3vw 3vh; background: radial-gradient(circle at 30% 20%, #4a5068, #1b1d2a 70%); overflow: auto;
+  /* pin the row to the viewport: otherwise it grows to fit a long note and the whole page scrolls */
+  grid-template-rows: minmax(0, 1fr); }
 .dex-device {
   width: min(1180px, 100%); height: min(760px, 100%); display: grid; grid-template-rows: auto 1fr;
   background: linear-gradient(160deg, #ef3340, #c41e2b 60%, #98101c); border-radius: 26px 26px 26px 60px;
@@ -107,8 +109,10 @@
 .l-title { font: 700 15px var(--ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 @media (max-width: 860px) {
-  .dex { align-items: start; }
+  .dex { align-items: start; grid-template-rows: auto; }
   .dex-device { height: auto; }
+  /* the device stacks and grows here, so cap the note itself and let it scroll inside */
+  .entry-note { flex: none; max-height: 40vh; }
   .dex-body { grid-template-columns: 1fr; }
   .dex-list { max-height: 50vh; }
   .dex-count { display: none; }
