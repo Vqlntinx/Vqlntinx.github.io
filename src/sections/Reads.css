@@ -104,7 +104,13 @@
   .shelf { padding: 0 8px; }
 }
 
-.librarian { display: flex; align-items: flex-end; gap: 10px; width: min(980px, 100%); }
+/* the bubble sits dead centre under the bookcase; the owl perches just to its left */
+.librarian { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 10px; width: min(980px, 100%); }
+.librarian .owl { justify-self: end; }
+@media (max-width: 719px) {
+  /* no room to spare on phones: owl + bubble simply fill the row */
+  .librarian { display: flex; }
+}
 .owl { font-size: 46px; animation: hop 2.6s ease-in-out infinite; }
 @keyframes hop { 0%, 80%, 100% { transform: none; } 88% { transform: translateY(-8px); } }
 .bubble {

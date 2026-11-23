@@ -48,7 +48,22 @@ function AutoScrollNote({ children }) {
     const SPEED = 16; // px per second
     const hold = () => { pausedUntil = performance.now() + 3000; };
     const enter = () => { hover = true; }, leave = () => { hover = false; pos = el.scrollTop; hold(); };
-    el.addEventListener('wheel', hold, { passive: true });
+    // The browser's default wheel step (~100px) skips most of a short note box, so scroll it in smaller steps.
+    // At either end the event is left alone so the page itself still scrolls.
+    const WHEEL_SCALE = 0.3;
+    const onWheel = (e) => {
+      hold();
+      if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+      const max = el.scrollHeight - el.clientHeight;
+      if (max <= 0) return;
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? el.clientHeight : 1;
+      const dy = e.deltaY * unit * WHEEL_SCALE;
+      if ((dy < 0 && el.scrollTop <= 0) || (dy > 0 && el.scrollTop >= max - 1)) return;
+      e.preventDefault();
+      el.scrollTop = Math.max(0, Math.min(max, el.scrollTop + dy));
+      pos = el.scrollTop;
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
     el.addEventListener('touchstart', hold, { passive: true });
     el.addEventListener('pointerenter', enter);
     el.addEventListener('pointerleave', leave);
@@ -74,7 +89,7 @@ function AutoScrollNote({ children }) {
     raf = requestAnimationFrame(tick);
     return () => {
       cancelAnimationFrame(raf);
-      el.removeEventListener('wheel', hold);
+      el.removeEventListener('wheel', onWheel);
       el.removeEventListener('touchstart', hold);
       el.removeEventListener('pointerenter', enter);
       el.removeEventListener('pointerleave', leave);
