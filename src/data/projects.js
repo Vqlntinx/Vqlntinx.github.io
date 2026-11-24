@@ -12,11 +12,11 @@ export const projects = [
     stats: { impact: 70, scale: 55, craft: 75 }, // ✏️ 임시 값
     links: { github: 'https://github.com/Vqlntinx/Suribot' },
     did: [
-      { ko: '기획부터 구현·운영까지 혼자 진행하였습니다. (D++ 라이브러리 기반)', en: 'Built and ran it solo, end to end, on the D++ library' },
-      { ko: '음성 채널 입장 · 이동 · 퇴장 이벤트로 체류 시간을 재고 누적량을 집계하였습니다.', en: 'Measured time per voice session from join / move / leave events and kept running totals' },
-      { ko: '/순위(상위 5명) · /업타임 슬래시 등 유저 명령을 구현했습니다.', en: 'Implemented user commands such as /ranking (top 5) and /uptime' },
-      { ko: '누적 데이터를 JSON으로 저장 · 복구하는 시스템을 구현했습니다.', en: 'Built a system that saves and restores the totals as JSON' },
-      { ko: '봇 토큰 · 채널 ID를 환경변수로 나누어 관리하였습니다.', en: 'Kept the bot token and channel ID separate, in environment variables' },
+      { ko: '기획 · 구현 · 운영 (D++ 라이브러리 기반)', en: 'Built and ran it solo, end to end, on the D++ library' },
+      { ko: '음성 채널 체류 시간 측정 및 누적량을 집계 시스템', en: 'Measured time per voice session from join / move / leave events and kept running totals' },
+      { ko: '/순위 · /업타임 등 유저 명령 구현', en: 'Implemented user commands such as /ranking (top 5) and /uptime' },
+      { ko: '누적 데이터 JSON 저장 · 복구 시스템', en: 'Built a system that saves and restores the totals as JSON' },
+      { ko: '봇 토큰 · 채널 ID 환경변수로 암호화', en: 'Kept the bot token and channel ID separate, in environment variables' },
     ],
     learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
       { ko: '여러 이벤트가 동시에 들어올 때 mutex로 공유 데이터를 지키는 법 (상태 락 · 파일 락 분리)', en: 'Guarding shared state with mutexes when events arrive concurrently (separate state and file locks)' },
@@ -31,10 +31,10 @@ export const projects = [
     stats: { impact: 65, scale: 70, craft: 80 }, // ✏️ 임시 값
     links: { github: 'https://github.com/Vqlntinx/RocksDB_ChronobreakFilter' },
     did: [
-      { ko: 'RocksDB 컴팩션 필터(ChronobreakFilter)를 설계 · 구현하였습니다. 기준 시간이 지난 로그를 컴팩션 때 정리되도록 하였습니다.', en: 'Designed and built the RocksDB compaction filter (ChronobreakFilter), dropping expired logs during compaction' },
-      { ko: '초기 LogDB(저장 · 조회 · 수동 컴팩션, msgpack 직렬화)를 직접 작성하였습니다.', en: 'Wrote the first LogDB: store, read and manual compaction, with msgpack serialization' },
-      { ko: 'JSONL 로그를 시간 순서대로 재생해 넣는 테스트 드라이버를 작성하였습니다.', en: 'Wrote a driver that replays JSONL logs in time order' },
-      { ko: 'db_bench에 필터를 붙여 순차 · 균등 · 시계열 워크로드에서 기본 설정과 그 성능을 비교 실험하였습니다.', en: 'Plugged the filter into db_bench and benchmarked it against the default settings on sequential, uniform and time-series workloads' },
+      { ko: 'RocksDB 로그 컴팩션 필터 설계 · 구현.', en: 'Designed and built the RocksDB compaction filter (ChronobreakFilter), dropping expired logs during compaction' },
+      { ko: '초기 LogDB(저장 · 조회 · 수동 컴팩션, msgpack 직렬화) 작성', en: 'Wrote the first LogDB: store, read and manual compaction, with msgpack serialization' },
+      { ko: 'JSONL 로그를 시간 순서대로 재생해 넣는 테스트 드라이버 작성', en: 'Wrote a driver that replays JSONL logs in time order' },
+      { ko: 'db_bench에 필터를 붙여 순차 · 균등 · 시계열 워크로드에서 기본 설정과 그 성능을 비교 실험', en: 'Plugged the filter into db_bench and benchmarked it against the default settings on sequential, uniform and time-series workloads' },
     ],
     learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
       { ko: 'LSM 트리와 컴팩션의 동작 — 삭제를 컴팩션 시점으로 미루는 설계', en: 'How LSM trees and compaction work, and deferring deletes to compaction time' },
@@ -65,7 +65,7 @@ export const projects = [
     ] },
   { id: 'ninano', icon: '🌊', color: '#1fa7c9', year: 2026,
     name: { ko: 'NINANO (엘니냐와 라니뇨)', en: 'NINANO' },
-    role: { ko: '해커톤 · 3인 팀 · AI 및 웹 시뮬레이션 담당', en: 'Hackathon · 3-person team · AI & Web simulation' },
+    role: { ko: '해커톤 · 3인 팀 · AI 및 웹 시뮬레이션', en: 'Hackathon · 3-person team · AI & Web simulation' },
     summary: { ko: '제2회 JDC 해커톤 · 생성형 AI 기후 모델(cBottle) 결과를 슬라이더로 탐색하는 엘니뇨·라니냐 웹 시뮬레이션', en: '2nd JDC Hackathon · an El Niño / La Niña web simulation exploring results from a generative AI climate model (cBottle)' },
     stack: ['React', 'TypeScript', 'WebGL2', 'cBottle', 'FastAPI'],
     stats: { impact: 75, scale: 70, craft: 80 }, // ✏️ 임시 값
@@ -74,11 +74,11 @@ export const projects = [
       github: 'https://github.com/Vqlntinx/ninano',
     },
     did: [
-      { ko: '1박 2일 해커톤에서 노트북 2대로 나눠, 한쪽은 NVIDIA 기후 모델 추론, 다른 쪽은 결과를 보여 줄 웹 시뮬레이션을 병렬로 개발했습니다.', en: 'In a two-day hackathon we split across two laptops: one ran the NVIDIA climate model, the other built the web simulation for its output.' },
-      { ko: '팀은 cBottle에 수온·바람만 바꿔 넣어 기온·강수·기압·수증기를 모델이 채우게 하고, 같은 seed로 253개 조건(수온 23단계 × 무역풍 11단계)을 미리 생성했습니다.', en: 'The team fed cBottle changed sea temperature and wind, let the model fill in temperature, rain, pressure and water vapour, and pre-generated 253 conditions (23 SST × 11 wind steps) with a fixed seed.' },
-      { ko: '추론 결과를 브라우저가 복사 없이 읽는 raw Float32 형식으로 받도록 데이터 형식을 맞추고 로더를 구현했습니다.', en: 'Agreed a raw Float32 data format the browser reads without copying, and built the loader for it' },
-      { ko: 'React · WebGL2로 5종 기후 변수 지도, 바람 입자 애니메이션, 3D 지구, ENSO 진단 패널을 구현했습니다.', en: 'Built maps for five climate variables, wind-particle animation, a 3D globe and an ENSO panel in React and WebGL2' },
-      { ko: '96MiB LRU 캐시와 이전 요청 취소로 슬라이더 조작 시 끊김을 없앴고, 0.5° 다운샘플로 데이터를 6.9GB → 1.8GB로 줄였습니다.', en: 'Kept the sliders smooth with a 96 MiB LRU cache and request cancelling, and cut the data from 6.9 GB to 1.8 GB with 0.5° downsampling' },
+      { ko: '2대의 PC로 NVIDIA 기후 모델 추론 및 웹 시뮬레이션 병렬 개발', en: 'In a two-day hackathon we split across two laptops: one ran the NVIDIA climate model, the other built the web simulation for its output.' },
+      { ko: 'cBottle 모델에 환경 변수를 입력해 그 변화를 모델이 자동 축적, 같은 seed로 253개 조건 생성', en: 'The team fed cBottle changed sea temperature and wind, let the model fill in temperature, rain, pressure and water vapour, and pre-generated 253 conditions (23 SST × 11 wind steps) with a fixed seed.' },
+      { ko: '추론 결과를 브라우저가 raw Float32 형식으로 받아 로더를 구현', en: 'Agreed a raw Float32 data format the browser reads without copying, and built the loader for it' },
+      { ko: 'React · WebGL2로 5종 기후 변수 지도, 바람 입자 애니메이션, 3D 지구, ENSO 진단 패널 구현', en: 'Built maps for five climate variables, wind-particle animation, a 3D globe and an ENSO panel in React and WebGL2' },
+      { ko: 'LRU 캐시로 슬라이더 조작 시 끊김 완화, 환경 변수 다운샘플로 데이터 최적화 (6.9GB → 1.8GB)', en: 'Kept the sliders smooth with a 96 MiB LRU cache and request cancelling, and cut the data from 6.9 GB to 1.8 GB with 0.5° downsampling' },
     ],
     learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
       { ko: '데이터 형식을 먼저 맞춰 두면 모델 쪽과 웹 쪽이 서로를 기다리지 않고 병렬로 일할 수 있다는 것', en: 'Agreeing the data format first lets the model side and the web side work in parallel without waiting on each other' },
