@@ -3,7 +3,7 @@
 @keyframes fadeIn { from { opacity: 0; } }
 .user-page {
   position: relative; width: min(920px, 100%); display: grid; grid-template-columns: 280px 1fr;
-  background: #3a3a3a; border-radius: 22px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.5);
+  background: #3a3a3a; border-radius: 22px; overflow: hidden auto; max-height: calc(100dvh - 32px); box-shadow: 0 30px 80px rgba(0,0,0,.5);
   animation: popIn .3s cubic-bezier(.2,.9,.25,1.2) both;
 }
 @keyframes popIn { from { transform: scale(.92); opacity: 0; } }
@@ -12,13 +12,17 @@
 .up-left h2 { margin: 18px 0 2px; font: 900 26px var(--ui); }
 .up-handle { margin: 6px 0 0; line-height: 0; }
 .up-code { margin: 18px 0 0; display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(0,0,0,.25); font: 600 12px 'Orbitron', var(--ui); letter-spacing: .12em; }
-.up-right { padding: 40px 36px; display: flex; flex-direction: column; gap: 18px; }
-.up-role { margin: 0; color: var(--sw-dim); font-size: 16px; }
+.up-right { padding: 34px 34px 30px; display: flex; flex-direction: column; gap: 14px; }
+.up-role { margin: 0; color: var(--sw-accent); font: 700 15px var(--ui); letter-spacing: .02em; }
+/* self-introduction: the main text of the page */
+.up-intro { display: grid; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.1); }
+.up-intro p { margin: 0; font: 500 15px/1.7 var(--ui); color: #ececec; word-break: keep-all; }
+.up-intro p:first-child { font-size: 17px; font-weight: 700; color: #fff; }
 .up-quote { display: flex; align-items: flex-start; gap: 10px; }
 .up-quote blockquote { margin: 0; flex: 1; animation: quoteIn .35s ease-out both; }
 @keyframes quoteIn { from { opacity: 0; transform: translateY(6px); } }
-.up-quote p { margin: 0; font: 700 clamp(17px, 1.7vw, 22px)/1.45 var(--ui); word-break: keep-all; }
-.up-quote cite { display: block; margin-top: 8px; font: 500 13px var(--ui); font-style: normal; color: var(--sw-dim); }
+.up-quote p { margin: 0; font: 600 14px/1.55 var(--ui); color: #cfcfcf; font-style: italic; word-break: keep-all; }
+.up-quote cite { display: block; margin-top: 4px; font: 500 12px var(--ui); font-style: normal; color: var(--sw-dim); }
 .up-reroll {
   flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
   background: #2d2d2d; color: var(--sw-accent); transition: background .15s, transform .15s;
@@ -26,12 +30,12 @@
 .up-reroll:hover { background: var(--sw-accent); color: #111; transform: rotate(-30deg); }
 .up-reroll svg { animation: rerollSpin .45s ease-out; }
 @keyframes rerollSpin { from { transform: rotate(-300deg); } }
-.up-stats { display: grid; grid-template-columns: 1.7fr repeat(3, 1fr); gap: 10px; }
-.up-stats div { background: #2d2d2d; border-radius: 14px; padding: 14px 6px; text-align: center; display: flex; flex-direction: column; gap: 4px; }
-.up-stats b { font: 900 22px var(--ui); color: var(--sw-accent); white-space: nowrap; }
-.up-stats span { font-size: 12px; color: var(--sw-dim); }
-.up-links { display: flex; gap: 12px; margin-top: auto; }
-.up-links a, .up-links button { position: relative; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: #2d2d2d; transition: all .15s; }
+.up-stats { display: grid; grid-template-columns: 1.7fr repeat(3, 1fr); gap: 8px; }
+.up-stats div { background: #2d2d2d; border-radius: 12px; padding: 9px 6px; text-align: center; display: flex; flex-direction: column; gap: 2px; }
+.up-stats b { font: 900 18px var(--ui); color: var(--sw-accent); white-space: nowrap; }
+.up-stats span { font-size: 11px; color: var(--sw-dim); }
+.up-links { display: flex; gap: 10px; margin-top: auto; }
+.up-links a, .up-links button { position: relative; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: #2d2d2d; transition: all .15s; }
 .up-links button.copied, .up-links button.copied:hover { background: #20c997; color: #111; }
 .up-copied {
   position: absolute; left: 50%; bottom: calc(100% + 8px); translate: -50% 0; white-space: nowrap;

@@ -39,6 +39,9 @@
 /* wide / text logos get a wider coin with square corners */
 .coin-stage.wide .coin-spin { width: min(calc(var(--size) * 1.9), 78cqw); }
 .coin-stage.wide .coin-spin img { border-radius: 0; }
+/* long one-line wordmarks (3:1 and wider) use nearly the whole screen width */
+.coin-stage.xwide .coin-spin { width: 88cqw; }
+.coin-stage.tiny .coin-spin img { image-rendering: pixelated; border-radius: 12%; }
 .coin-stage.loop .coin-spin { animation: coinHalfTurn 2.6s linear infinite; }
 .coin-stage.sway .coin-spin { animation: coinSway 4.2s ease-in-out infinite; }
 @keyframes coinHalfTurn { from { transform: rotateY(-90deg); } to { transform: rotateY(90deg); } }
@@ -83,8 +86,12 @@
 .entry-stats div { background: #fff; border-radius: 8px; padding: 8px 10px; box-shadow: inset 0 0 0 2px #e0e0d6; }
 .entry-stats dt { font: 8px 'Press Start 2P', monospace; color: #888; margin-bottom: 6px; }
 .entry-stats dd { margin: 0; font: 900 18px var(--ui); }
-.stars { color: #f5a623; letter-spacing: 1px; font-size: 15px !important; }
-.stars i { color: #ddd; font-style: normal; }
+.stars { letter-spacing: 1px; font-size: 15px; white-space: nowrap; }
+.star.full { color: #f5a623; }
+.star.empty { color: #ddd; }
+/* half star: left half gold, right half grey */
+.star.half { background: linear-gradient(90deg, #f5a623 50%, #ddd 50%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.rate-num { float: right; font: inherit; color: #f5a623; }
 .entry-note {
   margin: 0; padding: 12px 14px; background: #fff; border-radius: 8px; font: 500 15px var(--ui); line-height: 1.5; box-shadow: inset 0 0 0 2px #e0e0d6;
   /* takes whatever height is left under the screen; long notes scroll inside (see AutoScrollNote) */
@@ -98,6 +105,14 @@
 .dex-filter button { --t: #1d1d2b; padding: 5px 10px; border-radius: 6px; background: rgba(0,0,0,.2); color: #fff; font: 700 11px var(--ui); letter-spacing: .04em; transition: all .12s; }
 .dex-filter button:hover { background: rgba(0,0,0,.35); }
 .dex-filter button.on { background: var(--t); box-shadow: 0 0 0 2px #fff; }
+/* sort bar: click a key to sort, click it again to reverse */
+.dex-sort { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dex-sort .sort-label { font: 8px 'Press Start 2P', monospace; color: rgba(255,255,255,.8); margin-right: 2px; }
+.dex-sort button { padding: 4px 10px; border-radius: 999px; background: #fff3; color: #fff; font: 700 11px var(--ui); transition: all .12s; }
+.dex-sort button:hover { background: #fff5; }
+.dex-sort button.on { background: #fff; color: #d62f3a; }
+.dex-sort button i { font-style: normal; font-size: 9px; margin-left: 4px; }
+.l-meta { margin-left: auto; flex: none; font: 700 12px var(--ui); opacity: .7; }
 .dex-list { list-style: none; margin: 0; padding: 8px; overflow: auto; flex: 1; background: #1d1d2b; border-radius: 14px; box-shadow: inset 0 0 0 4px #333; }
 .dex-list button { width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; color: #cfd3e6; text-align: left; transition: background .1s; }
 .dex-list button:hover { background: rgba(255,255,255,.06); }

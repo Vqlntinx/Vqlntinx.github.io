@@ -9,6 +9,26 @@ import './Games.css';
 // Creature-dex style handheld: every game I've played is a registered entry.
 const no = (n) => 'No.' + String(n).padStart(3, '0');
 
+// rating is out of 10, drawn as 5 stars where each star is worth 2 points (odd scores end in a half star)
+function Stars({ rating = 0 }) {
+  return (
+    <span className="stars" aria-label={rating ? `${rating} / 10` : 'unrated'}>
+      {Array.from({ length: 5 }, (_, i) => {
+        const fill = Math.max(0, Math.min(2, rating - i * 2));
+        return <span key={i} className={'star ' + (fill === 2 ? 'full' : fill === 1 ? 'half' : 'empty')}>★</span>;
+      })}
+    </span>
+  );
+}
+
+// sort keys: default direction first, click again to reverse. Unrated games always sink to the bottom.
+// (No. already follows play time, so play time is also the starting order.)
+const SORTS = [
+  { id: 'hours', label: { ko: '플레이 시간', en: 'Played' }, dir: -1, cmp: (a, b) => a.hours - b.hours },
+  { id: 'rating', label: { ko: '평점', en: 'Rating' }, dir: -1, cmp: (a, b) => a.rating - b.rating || a.hours - b.hours },
+  { id: 'name', label: { ko: '이름', en: 'Name' }, dir: 1, cmp: (a, b) => a.title.localeCompare(b.title, 'en', { sensitivity: 'base', numeric: true }) },
+];
+
 // The game's own icon as a thick 3D coin: floats up and down in the middle of the screen.
 // The edge is the icon itself stacked in darkened slices, so it follows the icon's real shape.
 // Every icon spins a full 360°. The back face is the icon mirrored, as if seen from behind
@@ -18,10 +38,15 @@ const SLICES = 16; // keep in step with --depth in Games.css
 function IconCoin({ g }) {
   const [a, b] = g.types.map((t) => TYPE_COLORS[t]).filter(Boolean);
   const [wide, setWide] = useState(false);
+  const [tiny, setTiny] = useState(false); // small (≤64px) store icons: scale as crisp pixels instead of a blur
   const motion = g.iconMotion ?? 'spin';
-  const onLoad = (e) => setWide(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight > 1.25);
+  const onLoad = (e) => {
+    const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
+    setWide(w / h > 1.25 ? (w / h > 3 ? 'xwide' : 'wide') : false);
+    setTiny(w < 128);
+  };
   return (
-    <div className={'coin-stage ' + motion + (wide ? ' wide' : '')} style={{ '--a': a ?? '#8a8f99', '--b': b ?? a ?? '#5b6070' }}>
+    <div className={'coin-stage ' + motion + (wide ? ' wide ' + wide : '') + (tiny ? ' tiny' : '')} style={{ '--a': a ?? '#8a8f99', '--b': b ?? a ?? '#5b6070' }}>
       <div className="coin-bob">
         <div className="coin-spin">
           {Array.from({ length: SLICES }, (_, i) => (
@@ -131,12 +156,25 @@ function Cover({ g }) {
 export default function Games() {
   const { L, lang } = usePrefs();
   const [type, setType] = useState(null);
-  const list = useMemo(() => (type ? games.filter((g) => g.types.includes(type)) : games), [type]);
+  const [sort, setSort] = useState({ id: 'hours', dir: -1 });
+  const list = useMemo(() => {
+    const base = type ? games.filter((g) => g.types.includes(type)) : games;
+    const s = SORTS.find((x) => x.id === sort.id);
+    return [...base].sort((a, b) => {
+      if (sort.id === 'rating' && !a.rating !== !b.rating) return a.rating ? -1 : 1; // unrated last either way
+      return s.cmp(a, b) * sort.dir || a.id - b.id;
+    });
+  }, [type, sort]);
+  const pickSort = (id) => {
+    const s = SORTS.find((x) => x.id === id);
+    setSort((cur) => (cur.id === id ? { id, dir: -cur.dir } : { id, dir: s.dir }));
+    sfx.select();
+  };
   const [sel, setSel] = useState(0);
   const g = list[Math.min(sel, list.length - 1)];
   const listRef = useRef(null);
 
-  useEffect(() => { setSel(0); }, [type]);
+  useEffect(() => { setSel(0); }, [type, sort]);
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'ArrowDown') { e.preventDefault(); setSel((s) => Math.min(list.length - 1, s + 1)); }
@@ -148,7 +186,7 @@ export default function Games() {
   useEffect(() => {
     sfx.tick();
     listRef.current?.querySelector('.sel')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-  }, [sel, type]);
+  }, [sel, type, sort]);
 
   const totalHours = games.reduce((s, x) => s + x.hours, 0);
   const types = Object.keys(TYPE_COLORS).filter((t) => games.some((x) => x.types.includes(t)));
@@ -184,8 +222,8 @@ export default function Games() {
             <dl className="entry-stats">
               {/* pixel-font labels stay in English in both languages (Korean is unreadable at this size) */}
               <div><dt>PLAYED</dt><dd>{g.hours}h</dd></div>
-              <div><dt>RATING</dt><dd className="stars">{'★'.repeat(g.rating)}<i>{'★'.repeat(5 - g.rating)}</i></dd></div>
-              <div><dt>SINCE</dt><dd>{g.year}</dd></div>
+              <div><dt>RATING <b className="rate-num">{g.rating ? `${g.rating}/10` : '—'}</b></dt><dd><Stars rating={g.rating} /></dd></div>
+              <div><dt>SINCE</dt><dd>{g.year ?? '—'}</dd></div>
             </dl>
             <AutoScrollNote>{L(g.note)}</AutoScrollNote>
           </section>
@@ -197,6 +235,14 @@ export default function Games() {
                 <button key={t} className={type === t ? 'on' : ''} style={{ '--t': TYPE_COLORS[t] }} onClick={() => { setType(type === t ? null : t); sfx.select(); }}>{t}</button>
               ))}
             </div>
+            <div className="dex-sort" role="group" aria-label={lang === 'ko' ? '정렬' : 'Sort'}>
+              <span className="sort-label">SORT</span>
+              {SORTS.map((s) => (
+                <button key={s.id} className={sort.id === s.id ? 'on' : ''} onClick={() => pickSort(s.id)} aria-pressed={sort.id === s.id}>
+                  {L(s.label)}{sort.id === s.id && <i>{sort.dir < 0 ? '▼' : '▲'}</i>}
+                </button>
+              ))}
+            </div>
             <ol className="dex-list" ref={listRef}>
               {list.map((x, i) => (
                 <li key={x.id}>
@@ -204,6 +250,8 @@ export default function Games() {
                     <span className="ball" />
                     <span className="l-no">{no(x.id)}</span>
                     <span className="l-title">{x.title}</span>
+                    {sort.id === 'hours' && <span className="l-meta">{x.hours}h</span>}
+                    {sort.id === 'rating' && <span className="l-meta">{x.rating ? `${x.rating}/10` : '—'}</span>}
                   </button>
                 </li>
               ))}

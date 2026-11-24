@@ -49,6 +49,11 @@ export default function ProfileModal({ onClose }) {
         </aside>
         <div className="up-right">
           <p className="up-role">{L(profile.role)}</p>
+          {profile.intro && (
+            <div className="up-intro">
+              {L(profile.intro).split('\n').filter(Boolean).map((para, i) => <p key={i}>{para}</p>)}
+            </div>
+          )}
           {quote && (
             <div className="up-quote">
               <blockquote key={q}>
