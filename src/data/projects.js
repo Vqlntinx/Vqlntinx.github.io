@@ -65,7 +65,7 @@ export const projects = [
     ] },
   { id: 'ninano', icon: '🌊', color: '#1fa7c9', year: 2026,
     name: { ko: 'NINANO (엘니냐와 라니뇨)', en: 'NINANO' },
-    role: { ko: '해커톤 · 3인 팀 · 웹 시뮬레이션 담당', en: 'Hackathon · 3-person team · Web simulation' },
+    role: { ko: '해커톤 · 3인 팀 · AI 및 웹 시뮬레이션 담당', en: 'Hackathon · 3-person team · AI & Web simulation' },
     summary: { ko: '제2회 JDC 해커톤 · 생성형 AI 기후 모델(cBottle) 결과를 슬라이더로 탐색하는 엘니뇨·라니냐 웹 시뮬레이션', en: '2nd JDC Hackathon · an El Niño / La Niña web simulation exploring results from a generative AI climate model (cBottle)' },
     stack: ['React', 'TypeScript', 'WebGL2', 'cBottle', 'FastAPI'],
     stats: { impact: 75, scale: 70, craft: 80 }, // ✏️ 임시 값
