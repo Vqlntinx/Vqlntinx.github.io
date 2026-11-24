@@ -86,5 +86,13 @@
 .copy-used { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 14px; }
 .copy-used span { padding: 4px 12px; border-radius: 999px; background: color-mix(in srgb, var(--c) 40%, #fff); font-weight: 600; font-size: 13px; }
 
+/* what I actually did with this skill */
+.copy-card.wide { width: min(560px, 100%); }
+.copy-details { margin-top: 18px; padding-top: 14px; border-top: 3px dashed color-mix(in srgb, var(--c) 55%, #fff); text-align: left; }
+.copy-details h3 { margin: 0 0 10px; font: 400 18px 'Jua', var(--ui); color: #ff5fa8; text-align: center; }
+.copy-details ul { margin: 0; padding: 0 4px 0 0; list-style: none; display: grid; gap: 8px; max-height: min(38vh, 320px); overflow-y: auto; scrollbar-width: thin; }
+.copy-details li { position: relative; padding-left: 18px; font: 500 14.5px/1.55 var(--ui); color: #4a2f75; word-break: keep-all; }
+.copy-details li::before { content: '★'; position: absolute; left: 0; top: 0; font-size: 11px; color: #ffb81c; }
+
 /* full-screen rays behind the ability card */
 @keyframes burstSpin { to { transform: rotate(360deg); } }

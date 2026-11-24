@@ -67,7 +67,7 @@ export default function Skills() {
       {ability && (
         <div className="copy-get" onClick={() => { sfx.back(); setCopied(null); }} style={{ '--c': ability.color }}>
           <div className="burst" />
-          <div className="copy-card" onClick={(e) => e.stopPropagation()}>
+          <div className={'copy-card' + (ability.details?.length ? ' wide' : '')} onClick={(e) => e.stopPropagation()}>
             <svg className="copy-star" viewBox="0 0 100 100" aria-hidden="true"><path d={starPath} /></svg>
             <span className={iconClass('copy-icon', ability.icon)}>{ability.icon}</span>
             <p className="copy-label">{lang === 'ko' ? '능력 획득!' : 'ABILITY GET!'}</p>
@@ -75,6 +75,12 @@ export default function Skills() {
             <p className="copy-ability">{L(ability.ability)}</p>
             <div className="copy-level">{'★'.repeat(ability.level)}<i>{'★'.repeat(5 - ability.level)}</i></div>
             <div className="copy-used">{ability.usedIn.map((u) => <span key={u}>{u}</span>)}</div>
+            {ability.details?.length > 0 && (
+              <div className="copy-details">
+                <h3>{lang === 'ko' ? '이렇게 써 봤어요' : 'What I have built with it'}</h3>
+                <ul>{ability.details.map((d, i) => <li key={i}>{L(d)}</li>)}</ul>
+              </div>
+            )}
           </div>
         </div>
       )}

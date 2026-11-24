@@ -48,6 +48,7 @@ export default function Projects() {
   const [bump, setBump] = useState(0);         // increments to replay the jump/bump animation
   const [visited, setVisited] = useState(() => new Set([0]));
   const [facing, setFacing] = useState(1);
+  const [tab, setTab] = useState('log'); // quest log: 'log' (contributions + lessons) or 'ts' (troubleshooting)
   const prev = useRef(0);
   const p = projects[Math.min(sel, projects.length - 1)]; // guard: the list may shrink while a level is selected
 
@@ -56,6 +57,7 @@ export default function Projects() {
     setFacing(i >= prev.current ? 1 : -1);
     prev.current = i;
     setSel(i);
+    setTab('log');
     setBump((b) => b + 1);
     setVisited((v) => new Set(v).add(i));
   };
@@ -100,7 +102,7 @@ export default function Projects() {
       <section className="level-card" key={p.id} style={{ '--c': p.color }}>
         <div className="lc-icon">{p.icon}</div>
         <div className="lc-body">
-          <div className="lc-meta">{p.year} · {L(p.role)}</div>
+          <div className="lc-meta">{p.period || p.year} · {L(p.role)}</div>
           <h2>{L(p.name)}</h2>
           <p>{L(p.summary)}</p>
           {p.stack?.length > 0 && <div className="lc-stack">{p.stack.map((s) => <span key={s}>{s}</span>)}</div>}
@@ -129,8 +131,29 @@ export default function Projects() {
         </div>
       </section>
 
-      {(p.did?.length > 0 || p.learned?.length > 0) && (
-        <section className="quest-log" key={'q' + p.id} style={{ '--c': p.color }}>
+      {(p.did?.length > 0 || p.learned?.length > 0 || p.troubles?.length > 0) && (
+        <section className={'quest-log' + (tab === 'ts' && p.troubles?.length ? ' ts-mode' : '')} key={'q' + p.id} style={{ '--c': p.color }}>
+          {p.troubles?.length > 0 && (
+            <div className="ql-tabs" role="tablist">
+              {[['log', lang === 'ko' ? '🛠 기여 · 배운 점' : '🛠 Contributions'], ['ts', (lang === 'ko' ? '🔧 트러블 슈팅 ' : '🔧 Troubleshooting ') + p.troubles.length]].map(([k, label]) => (
+                <button key={k} role="tab" aria-selected={tab === k} className={tab === k ? 'on' : ''} onClick={() => { setTab(k); sfx.tick(); }}>{label}</button>
+              ))}
+            </div>
+          )}
+          {tab === 'ts' && p.troubles?.length > 0 ? (
+            <div className="ts-list">
+              {p.troubles.map((t, i) => (
+                <article key={i} className="ts-card" style={{ '--i': i }}>
+                  <h4><span>#{i + 1}</span>{L(t.title)}</h4>
+                  <dl>
+                    <dt>{lang === 'ko' ? '상황' : 'Problem'}</dt><dd>{L(t.problem)}</dd>
+                    <dt>{lang === 'ko' ? '해결' : 'Solution'}</dt><dd>{L(t.solution)}</dd>
+                    <dt>{lang === 'ko' ? '결과 · 배운 점' : 'Result'}</dt><dd>{L(t.result)}</dd>
+                  </dl>
+                </article>
+              ))}
+            </div>
+          ) : (<>
           {p.did?.length > 0 && (
             <div className="ql-col">
               <h3><span className="ql-ico">🛠</span>{lang === 'ko' ? '핵심 기여' : 'Key contributions'}</h3>
@@ -143,6 +166,7 @@ export default function Projects() {
               <ul>{p.learned.map((d, i) => <li key={i} style={{ '--i': i + (p.did?.length || 0) }}>{L(d)}</li>)}</ul>
             </div>
           )}
+          </>)}
         </section>
       )}
       </div>

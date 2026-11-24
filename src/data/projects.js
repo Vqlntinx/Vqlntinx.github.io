@@ -3,12 +3,15 @@
 // stack: 기술 태그(없으면 [] 로 두면 숨겨져요)
 // links: github / notion / demo — 있는 것만 버튼으로 나와요.
 // did: 내가 담당한 일 / learned: 배운 점 — 카드 아래 패널에 나와요(없으면 그 칸은 숨겨져요).
+// period(선택): 카드 위에 연도 대신 보여 줄 기간(예: '2026.01 – 2026.06').
+// troubles(선택): 트러블 슈팅 탭 — { title, problem(상황), solution(해결), result(결과 · 배운 점) }.
+//   면접에서 가장 많이 파고드는 부분이에요. ✏️ 초안 표시가 붙은 항목은 실제 겪은 일과 맞는지 꼭 확인하세요.
 export const projects = [
-  { id: 'suribot', icon: '🤖', color: '#5865f2', year: 2024,
+  { id: 'suribot', icon: '🤖', color: '#5865f2', year: 2024, period: '2024',
     name: { ko: 'Suribot', en: 'Suribot' },
-    role: { ko: '개인 프로젝트', en: 'Personal project' },
-    summary: { ko: '디스코드 음성 채널 체류 시간을 기록하고 /순위 · /업타임으로 조회하는 봇', en: 'Discord bot that logs voice-channel time, with /ranking and /uptime commands' },
-    stack: ['C++', 'D++', 'CMake'],
+    role: { ko: '개인 프로젝트 · 300명+ 서버 운영', en: 'Personal project · ran on a 300+ member server' },
+    summary: { ko: '디스코드 음성 채널 체류 시간을 기록하고 /순위 · /업타임으로 조회하는 C++ 봇 — 운영하던 커뮤니티의 참여를 늘리려고 직접 만들어 도입', en: 'A C++ Discord bot that logs voice-channel time with /ranking and /uptime — built and launched to bring members back to the community I moderated' },
+    stack: ['C++', 'D++', 'CMake', 'JSON'],
     stats: { impact: 70, scale: 55, craft: 75 }, // ✏️ 임시 값
     links: { github: 'https://github.com/Vqlntinx/Suribot' },
     did: [
@@ -18,16 +21,23 @@ export const projects = [
       { ko: '누적 데이터 JSON 저장 · 복구 시스템', en: 'Built a system that saves and restores the totals as JSON' },
       { ko: '봇 토큰 · 채널 ID 환경변수로 암호화', en: 'Kept the bot token and channel ID separate, in environment variables' },
     ],
+    troubles: [
+      { // ✏️ 초안 — 실제 상황에 맞게 다듬어 주세요
+        title: { ko: '여러 사람이 동시에 들어오고 나갈 때 누적 시간이 꼬임', en: 'Totals went wrong when several people joined and left at once' },
+        problem: { ko: '음성 이벤트는 동시에 여러 개가 들어오는데, 같은 기록을 여러 이벤트가 동시에 고치거나 저장 중인 파일을 다시 쓰면 체류 시간이 어긋날 수 있었습니다.', en: 'Voice events arrive concurrently; if several of them edit the same record, or rewrite the file while it is being saved, the totals can drift.' },
+        solution: { ko: '메모리의 상태를 지키는 락과 JSON 파일 저장을 지키는 락을 나눈 mutex 구조로 바꿨습니다. 저장이 길어져도 이벤트 처리가 막히지 않게 했습니다.', en: 'Split the locking into one mutex for in-memory state and one for writing the JSON file, so a slow save never blocks event handling.' },
+        result: { ko: '락을 하나로 크게 잡기보다 “무엇을 지키는 락인지” 나눠야 동시성과 안전을 함께 얻을 수 있다는 것을 배웠습니다.', en: 'I learned to split locks by what they protect, rather than one big lock, to keep both safety and throughput.' } },
+    ],
     learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
       { ko: '여러 이벤트가 동시에 들어올 때 mutex로 공유 데이터를 지키는 법 (상태 락 · 파일 락 분리)', en: 'Guarding shared state with mutexes when events arrive concurrently (separate state and file locks)' },
       { ko: '운영 데이터와 비밀 값은 저장소에 올리지 않는 습관', en: 'Keeping live data and secrets out of the repository' },
       { ko: '외부 C++ 라이브러리 위에서 빌드 · 의존성을 관리하는 경험', en: 'Managing builds and dependencies on top of an external C++ library' },
     ] },
-  { id: 'chronobreak', icon: '⏪', color: '#2f8cff', year: 2025,
+  { id: 'chronobreak', icon: '⏪', color: '#2f8cff', year: 2025, period: '2025',
     name: { ko: 'Chronobreak (RocksDB)', en: 'Chronobreak (RocksDB)' },
-    role: { ko: '팀 프로젝트', en: 'Team project' },
+    role: { ko: '팀 프로젝트 · 컴팩션 필터 · 실험 담당', en: 'Team project · compaction filter & benchmarks' },
     summary: { ko: 'RocksDB 기반 세션 로그 저장소 · 세션을 과거 시점으로 되돌리는 ChronoBreak와 컴팩션 필터 구현', en: 'RocksDB session-log store with ChronoBreak rollback and a custom compaction filter' },
-    stack: ['C++', 'RocksDB'],
+    stack: ['C++', 'RocksDB', 'msgpack', 'db_bench'],
     stats: { impact: 65, scale: 70, craft: 80 }, // ✏️ 임시 값
     links: { github: 'https://github.com/Vqlntinx/RocksDB_ChronobreakFilter' },
     did: [
@@ -36,38 +46,68 @@ export const projects = [
       { ko: 'JSONL 로그를 시간 순서대로 재생해 넣는 테스트 드라이버 작성', en: 'Wrote a driver that replays JSONL logs in time order' },
       { ko: 'db_bench에 필터를 붙여 순차 · 균등 · 시계열 워크로드에서 기본 설정과 그 성능을 비교 실험', en: 'Plugged the filter into db_bench and benchmarked it against the default settings on sequential, uniform and time-series workloads' },
     ],
+    troubles: [
+      { // ✏️ 초안 — 실제 상황에 맞게 다듬어 주세요
+        title: { ko: '시간순으로 넣은 로그가 시간순으로 정렬되지 않음', en: 'Logs written in time order did not sort in time order' },
+        problem: { ko: 'RocksDB는 키를 바이트 순서로 정렬하는데, 숫자 시각을 그대로 키로 쓰면 바이트 순서와 시간 순서가 달라 과거 시점 조회와 필터 판단이 어긋날 수 있었습니다.', en: 'RocksDB sorts keys by bytes; using a raw numeric timestamp as the key made byte order differ from time order, which breaks rollback lookups and filter decisions.' },
+        solution: { ko: '시각을 big-endian으로 인코딩한 키를 써서 바이트 정렬이 곧 시간 정렬이 되도록 바꿨습니다.', en: 'Encoded timestamps big-endian in the key, so byte order and time order match.' },
+        result: { ko: '저장소의 정렬 규칙을 이해하고 키를 설계해야 한다는 것을 배웠습니다. 세이브 · 리플레이처럼 시간순 데이터를 다루는 게임 시스템에도 같은 원리가 적용됩니다.', en: 'I learned to design keys around the store\'s ordering rules — the same idea applies to time-ordered game data like saves and replays.' } },
+      {
+        title: { ko: '만료된 로그를 지울 때 쓰기 성능이 떨어지지 않게', en: 'Deleting expired logs without slowing writes' },
+        problem: { ko: '오래된 로그를 그때그때 직접 지우면 삭제 작업이 쓰기 경로에 끼어들어 부담이 됩니다.', en: 'Deleting old logs as you go puts delete work on the write path.' },
+        solution: { ko: '삭제를 컴팩션 시점으로 미루는 컴팩션 필터를 구현하고, db_bench로 순차 · 균등 · 시계열 워크로드에서 기본 설정과 비교했습니다.', en: 'Moved deletion to compaction time with a compaction filter, and compared it with the default settings in db_bench on sequential, uniform and time-series workloads.' },
+        result: { ko: 'LSM 트리의 동작을 이해했고, 설계가 맞는지는 벤치마크 수치로 확인해야 한다는 습관을 얻었습니다.', en: 'I came to understand how LSM trees work, and picked up the habit of checking a design with benchmark numbers.' } },
+    ],
     learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
       { ko: 'LSM 트리와 컴팩션의 동작 — 삭제를 컴팩션 시점으로 미루는 설계', en: 'How LSM trees and compaction work, and deferring deletes to compaction time' },
       { ko: '키의 바이트 순서가 RocksDB 정렬 순서를 정한다는 점 (big-endian 키)', en: 'That key byte order sets RocksDB\'s sort order (big-endian keys)' },
       { ko: '벤치마크 수치로 설계를 검증하는 방법', en: 'Checking a design with benchmark numbers' },
     ] },
-  { id: 'fff', icon: '🎮', color: '#ff7a3d', year: 2026,
+  { id: 'fff', icon: '🎮', color: '#ff7a3d', year: 2026, period: '2026.01 – 2026.06',
     name: { ko: "게임 'FFF'", en: "Game 'FFF'" },
-    role: { ko: '팀 리더 · 스크럼 마스터', en: 'Team Lead · Scrum Master' },
-    summary: { ko: '단국대 캡스톤 3인 팀 게임 개발 · 요구사항 조율, 일정·이슈 관리로 완성', en: 'Dankook capstone, 3-person team · led requirements, schedule and issues to ship the game' },
-    stack: ['C#', 'Unity'],
+    role: { ko: '3인 팀 · 팀 리더 · 스크럼 마스터 · 클라이언트', en: '3-person team · Lead · Scrum Master · Client' },
+    summary: { ko: '화투 2장으로 섯다 족보를 만들어 싸우는 1인용 로그라이크 덱빌딩 게임 (단국대 캡스톤) · 게임 흐름 · 9개 씬 구조, 시드 기반 맵, 카드 · 족보 시스템, 연출 · UI · 사운드 담당', en: 'A single-player roguelike deck-builder where two Hwatu cards form a Seotda hand (Dankook capstone) · I owned the game flow and nine-scene structure, seeded maps, cards and hand judging, plus effects, UI and sound' },
+    stack: ['C#', 'Unity 6', 'URP', 'ScriptableObject', 'Git Flow'],
     stats: { impact: 80, scale: 60, craft: 75 }, // ✏️ 임시 값
     links: {
       github: 'https://github.com/Vqlntinx/FFF',
       notion: 'https://app.notion.com/p/5-Forge-Project-Hwatu-3f7198ad3d8183649653010d32900c36?source=copy_link',
     },
     did: [
-      { ko: '팀 리더 · 스크럼 마스터 — 요구사항 조율, Notion으로 일정 · 이슈 관리', en: 'Team lead and scrum master: aligned requirements, ran schedule and issues in Notion' },
-      { ko: '게임 전체 흐름(GameManager · SceneLoader)과 씬 구조 설계', en: 'Designed the game flow (GameManager, SceneLoader) and scene structure' },
-      { ko: '시드 기반 로그라이크 맵 생성(MapGenerator)과 맵 UI', en: 'Seed-based roguelike map generation (MapGenerator) and the map UI' },
-      { ko: '화투 카드 데이터(ScriptableObject) · 덱 시스템 · 섯다 족보 판정', en: 'Hwatu card data (ScriptableObjects), the deck system and Seotda hand judging' },
-      { ko: '사운드 시스템, 카드 · 전투 애니메이션, 로딩 화면, 상단 HUD, 상점 UI', en: 'Sound system, card and battle animations, loading screen, top HUD and shop UI' },
+      { ko: '팀 리더 · 스크럼 마스터 — 요구사항 조율과 기능별 우선순위 결정, Notion으로 일정 · 이슈 관리', en: 'Team lead and scrum master: aligned requirements, set feature priorities, ran schedule and issues in Notion' },
+      { ko: 'main – dev – feature 브랜치 전략(Git Flow)을 세우고 PR 리뷰 후 병합하는 흐름 운영', en: 'Set up a main – dev – feature branch strategy (Git Flow) and ran review-then-merge PRs' },
+      { ko: 'MVC 구조로 9개 씬 전환 구조 설계', en: 'Designed transitions for nine scenes (Boot → Title → Main → Stage → Battle, Shop, Rest, Treasure → Ending) with GameManager, SceneLoader and SceneSetup' },
+      { ko: '시드 기반 15층 × 7열 로그라이크 맵 생성', en: 'Seeded 15-floor × 7-column roguelike map generation (MapGenerator) with monster, elite, shop, rest, treasure and boss nodes, plus the map UI' },
+      { ko: '화투 카드 데이터 · 덱 시스템 · 섯다 족보 판정', en: 'Hwatu card data (ScriptableObjects), the deck system and Seotda hand judging (SeotdaJudge)' },
+      { ko: 'BGM · SFX · UI 등 사운드 시스템, 카드 · 전투 애니메이션, 로딩 화면, 상단 HUD, 상점 UI', en: 'Sound system with separate BGM, SFX and UI volumes, card and battle animations, loading screen, top HUD and shop UI' },
+    ],
+    troubles: [
+      { // ✏️ '상황'은 초안 — 실제 겪은 일과 맞는지 확인해 주세요
+        title: { ko: '씬이 9개로 늘자 “누가 다음 씬을 정하고, 누가 참조를 연결하는가”가 엉킴', en: 'With nine scenes, "who picks the next scene and who wires references" got tangled' },
+        problem: { ko: '전투 · 상점 · 휴식 씬을 오가며 플레이어 데이터를 유지해야 했는데, 씬마다 직접 다음 씬을 불러 전환 로직이 흩어졌고 다시 로드될 때 매니저 참조가 끊기거나 중복 생성됐습니다.', en: 'Player data had to survive trips between battle, shop and rest scenes, but each scene loaded the next one itself, so transition logic was scattered and manager references broke or duplicated on reload.' },
+        solution: { ko: 'BootScene이 전역 매니저를 한 번만 만들고, GameManager는 어디로 갈지만, SceneLoader는 실제 로드만, 씬별 SceneSetup은 로드 후 참조 연결만 맡도록 책임을 나눴습니다.', en: 'BootScene creates the global managers once; GameManager only decides where to go, SceneLoader only loads, and each scene\'s SceneSetup only wires references after loading.' },
+        result: { ko: '팀원은 새 씬을 만들 때 SceneSetup만 작성하면 됐습니다. 뼈대를 먼저 세우는 것이 곧 팀의 개발 속도라는 것을 체감했습니다.', en: 'Teammates only had to write a SceneSetup for each new scene. Putting the skeleton in place first set the whole team\'s pace.' } },
+      { // ✏️ '상황'은 초안
+        title: { ko: '매번 달라야 하지만, 같은 상황은 다시 만들 수 있어야 하는 맵', en: 'A map that must differ every run, yet be reproducible' },
+        problem: { ko: '런마다 다른 맵이 필요했지만, 순수 무작위로 만들면 버그가 난 맵을 다시 볼 수 없었고 이어하기 때 맵을 통째로 저장해야 했습니다.', en: 'Each run needed a new map, but pure randomness made buggy maps impossible to revisit and meant saving the whole map for Continue.' },
+        solution: { ko: 'MapGenerator가 시드 하나로 15층 × 7열 노드와 연결을 결정하게 했습니다. MapNode는 층 · 위치 · 방 타입 · 연결 정보만 갖고, 같은 시드면 같은 맵이 나옵니다.', en: 'MapGenerator decides the 15 × 7 nodes and their links from one seed. MapNode holds only floor, position, room type and links, so the same seed gives the same map.' },
+        result: { ko: '시드만 공유하면 같은 맵을 재현해 버그를 확인할 수 있었습니다. 무작위성은 통제할 수 있을 때 설계와 디버깅 모두에 쓸모 있다는 것을 배웠습니다.', en: 'Sharing a seed was enough to reproduce a map and check a bug. Randomness is useful for design and debugging alike once you can control it.' } },
+      {
+        title: { ko: '세 명이 같은 Unity 프로젝트를 동시에 고치며 생긴 충돌', en: 'Three people editing one Unity project at once' },
+        problem: { ko: '세 명이 동시에 개발하자 기능이 서로 맞물리지 않거나 같은 부분을 다르게 이해하는 일이 생겼고, 병합 충돌이 잦았습니다.', en: 'With three people developing at once, features didn\'t fit together, we read the same thing differently, and merge conflicts were frequent.' },
+        solution: { ko: 'main – dev – feature 브랜치 전략을 세우고 feature에서 자체 테스트 → PR 리뷰 → dev 병합 → 마일스톤마다 main 병합 흐름을 정했습니다. 일정 · 이슈는 Notion에 모았습니다.', en: 'Set up main – dev – feature branches with test on feature → PR review → merge to dev → merge to main at each milestone, and kept schedule and issues in Notion.' },
+        result: { ko: 'main은 언제든 발표 가능한 빌드로 남았고, 마감 직전엔 끝까지 플레이되는 빌드를 우선해 범위를 줄여 일정 안에 완성했습니다.', en: 'main stayed presentable at all times, and near the deadline we cut scope to a build playable end to end and shipped on time.' } },
     ],
     learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
       { ko: '브랜치 전략과 PR 머지로 3명이 동시에 작업할 때 충돌 줄이기', en: 'Using a branch strategy and PR merges to keep three people from colliding' },
       { ko: '씬 · 매니저 · UI 컴포넌트로 역할을 나눠 병렬 개발이 가능한 구조', en: 'Splitting work into scenes, managers and UI components so it can be built in parallel' },
       { ko: '우선순위를 정해 마감 안에 범위를 맞추는 일정 관리', en: 'Setting priorities to fit the scope into the deadline' },
     ] },
-  { id: 'ninano', icon: '🌊', color: '#1fa7c9', year: 2026,
+  { id: 'ninano', icon: '🌊', color: '#1fa7c9', year: 2026, period: '2026.06 · 1박 2일',
     name: { ko: 'NINANO (엘니냐와 라니뇨)', en: 'NINANO' },
     role: { ko: '해커톤 · 3인 팀 · AI 및 웹 시뮬레이션', en: 'Hackathon · 3-person team · AI & Web simulation' },
     summary: { ko: '제2회 JDC 해커톤 · 생성형 AI 기후 모델(cBottle) 결과를 슬라이더로 탐색하는 엘니뇨·라니냐 웹 시뮬레이션', en: '2nd JDC Hackathon · an El Niño / La Niña web simulation exploring results from a generative AI climate model (cBottle)' },
-    stack: ['React', 'TypeScript', 'WebGL2', 'cBottle', 'FastAPI'],
+    stack: ['React', 'TypeScript', 'WebGL2', 'GLSL', 'Python', 'cBottle', 'FastAPI'],
     stats: { impact: 75, scale: 70, craft: 80 }, // ✏️ 임시 값
     links: {
       demo: 'https://www.youtube.com/watch?v=tZYHsdUNgAM',
@@ -79,6 +119,23 @@ export const projects = [
       { ko: '추론 결과를 브라우저가 raw Float32 형식으로 받아 로더를 구현', en: 'Agreed a raw Float32 data format the browser reads without copying, and built the loader for it' },
       { ko: 'React · WebGL2로 5종 기후 변수 지도, 바람 입자 애니메이션, 3D 지구, ENSO 진단 패널 구현', en: 'Built maps for five climate variables, wind-particle animation, a 3D globe and an ENSO panel in React and WebGL2' },
       { ko: 'LRU 캐시로 슬라이더 조작 시 끊김 완화, 환경 변수 다운샘플로 데이터 최적화 (6.9GB → 1.8GB)', en: 'Kept the sliders smooth with a 96 MiB LRU cache and request cancelling, and cut the data from 6.9 GB to 1.8 GB with 0.5° downsampling' },
+    ],
+    troubles: [
+      { // ✏️ '상황' 뒷부분은 초안
+        title: { ko: '슬라이더를 빠르게 움직이면 끊기고 엉뚱한 조건이 늦게 그려짐', en: 'Fast slider moves stuttered and drew stale conditions late' },
+        problem: { ko: '조건 하나를 바꿀 때마다 변수별 Float32 파일을 받아야 했습니다. 슬라이더를 끌면 요청이 쌓였고, 늦게 도착한 옛 조건의 응답이 최신 화면을 덮어썼습니다.', en: 'Every condition change fetched Float32 files per variable. Dragging a slider piled up requests, and late replies for old conditions overwrote the latest view.' },
+        solution: { ko: '조건이 바뀌면 AbortController로 이전 요청을 취소해 마지막 조건만 그리게 했고, 받은 레이어는 96MiB 상한 LRU 캐시에 두어 되돌릴 때는 네트워크 없이 텍스처만 바꾸게 했습니다.', en: 'Cancelled earlier requests with AbortController so only the latest condition is drawn, and kept fetched layers in a 96 MiB LRU cache so going back just swaps a texture.' },
+        result: { ko: '체감 성능은 평균 속도보다 “지금 볼 것을 먼저, 낡은 것은 버리기”에서 나온다는 것을 배웠습니다. 게임의 에셋 스트리밍 · 리소스 캐시와 같은 원리입니다.', en: 'Perceived speed comes from "show what\'s needed now, drop what\'s stale" more than raw speed — the same idea as asset streaming and resource caches in games.' } },
+      {
+        title: { ko: '6.9GB 데이터를 시연용 노트북에서 다뤄야 함', en: 'Handling 6.9 GB of data on a demo laptop' },
+        problem: { ko: '253개 조건 × 6개 변수를 0.25° 격자로 저장하니 약 6.9GB였습니다. 해커톤 시연 환경에서 내려받고 서빙하기에 너무 컸습니다.', en: '253 conditions × 6 variables on a 0.25° grid came to about 6.9 GB, too big to download and serve on the demo setup.' },
+        solution: { ko: '0.5° 격자점이 0.25° 격자점의 부분집합이라는 점을 이용해, 보간 없이 한 칸씩 건너뛰는 stride-2 다운샘플 도구를 만들었습니다.', en: 'Since 0.5° grid points are a subset of the 0.25° ones, I wrote a stride-2 downsampler that just skips every other point, with no interpolation.' },
+        result: { ko: '6.9GB → 1.8GB. 압축보다 먼저 데이터 구조를 보면 손실 없는 방법이 있다는 것을 배웠고, 보간을 안 해 육지 경계도 그대로 유지됐습니다.', en: '6.9 GB → 1.8 GB. Looking at the data\'s structure before reaching for compression found a lossless option, and skipping interpolation kept coastlines intact.' } },
+      {
+        title: { ko: '같은 입력에도 매번 다른 결과를 내는 생성형 모델', en: 'A generative model that answers differently every run' },
+        problem: { ko: 'diffusion 모델은 실행마다 결과가 달라, 두 결과의 차이가 “수온을 바꾼 효과”인지 “그냥 무작위”인지 구분할 수 없었습니다.', en: 'Diffusion models vary per run, so a difference between two results could be the changed sea temperature or just noise.' },
+        solution: { ko: '기준 입력과 변경 입력을 같은 seed로 추론해 차이만 남기고, 무거운 추론 253건은 미리 계산해 화면은 가벼운 파일을 읽기만 하게 나눴습니다.', en: 'Ran baseline and changed inputs with the same seed to isolate the difference, and precomputed all 253 heavy inferences so the page only reads light files.' },
+        result: { ko: '무거운 계산은 앞으로 빼고 실행 중에는 읽기만 하는 구조, 무작위성을 seed로 통제하는 감각은 게임의 베이킹 · 절차적 생성과 같은 사고방식이었습니다.', en: 'Moving heavy work ahead of time and controlling randomness with seeds is the same thinking as baking and procedural generation in games.' } },
     ],
     learned: [ // ✏️ 초안이에요 — 직접 다듬어 주세요
       { ko: '데이터 형식을 먼저 맞춰 두면 모델 쪽과 웹 쪽이 서로를 기다리지 않고 병렬로 일할 수 있다는 것', en: 'Agreeing the data format first lets the model side and the web side work in parallel without waiting on each other' },
