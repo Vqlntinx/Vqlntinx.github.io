@@ -75,7 +75,8 @@
   /* in projects the title column may split, so it never jumps to the next page away from its own description */
   .row:has(h5) .row-left { break-inside: auto; }
   .row:has(h5) .row-left h3 { break-after: avoid; }
-  .row-right { float: left; width: calc(73% - 30px); margin-left: 30px; padding-left: 22px; border-left: 2px solid var(--line); }
+  /* floated right (not left): when a project continues on the next printed page, it stays in the right column */
+  .row-right { float: right; width: calc(73% - 30px); padding-left: 22px; border-left: 2px solid var(--line); }
   h2 .dot { margin-left: -12px; }
   h3 { margin: 0 0 6px; font-size: 22px; line-height: 1.3; font-weight: 800; letter-spacing: -0.5px; }
   .role { display: block; font-size: 15px; font-weight: 600; }
