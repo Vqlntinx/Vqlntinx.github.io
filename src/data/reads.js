@@ -1,5 +1,5 @@
 // ✏️ 읽은 책 = 동물의 숲풍 도서관 책장. color는 책등 색, rating은 1~5(잎사귀 개수).
-// review는 독후감입니다. 줄바꿈은 \n 으로 넣으세요.
+// review는 독후감
 export const reads = [
   { id: 'r1', color: '#e8826b', height: 92, date: '2026.09',
     title: { ko: '미야모토 시게루의 게임론', en: 'Shigeru Miyamoto: Super Mario Bros., Donkey Kong, The Legend of Zelda' }, author: { ko: '제니퍼 드윈터', en: 'Jennifer deWinter' }, rating: 5,

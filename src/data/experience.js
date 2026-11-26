@@ -1,19 +1,18 @@
-// ✏️ 지도 이미지. public 폴더에 넣고 image에 경로를 쓰세요(예: './world-map.webp').
-// width/height는 그 이미지의 실제 픽셀 크기. 비워두면(null) 임시로 그린 지형이 나옵니다.
+// width/height는 그 이미지의 실제 픽셀 크기. 비워두면(null) 임시로 그린 지형
 export const worldMap = { image: './world-map.webp', width: 6144, height: 4096 };
 
 // ✏️ 경험 = 지도 위의 장소. x, y는 지도 위 위치(%)이고, 핀의 뾰족한 끝이 그 지점을 가리켜요.
 // 오래된 것부터 순서대로 (그 순서대로 길이 이어져요).
 // kind(지도 아이콘): school | village | cafe | arena | beacon | castle | tower | shrine
-// title · quests 안의 \n 은 줄바꿈이 돼요.
-// story(선택): quests 아래 가로줄 밑에 나오는 긴 글. 백틱(`)으로 감싸면 줄바꿈을 그대로 쓸 수 있어요.
-//   빈 줄 = 문단 나눔, **글자** = 굵게. 없으면 그 칸은 숨겨져요.
+// title · quests 안의 \n 은 줄바꿈
+// story(선택): quests 아래 가로줄 밑에 나오는 긴 글. 백틱(`)으로 감싸면 줄바꿈을 그대로
+//   빈 줄 = 문단 나눔, **글자** = 굵게. 없으면 그 칸은 숨겨짐
 export const experience = [
   { id: 'dku', kind: 'school', x: 12.5, y: 55.5, period: '2020.03 – 2026.08',
     place: { ko: '단국대학교', en: 'Dankook University' },
     title: { ko: '최종 학점 : 3.91\n취득 학점 : 176', en: 'GPA : 3.91\nCredits : 176' },
     quests: [{ ko: '유럽중남미학부 독일학전공', en: 'German Studies (MAJOR)' }, { ko: 'SW융합대학 소프트웨어학과', en: 'Software Studies (DOUBLE-MAJOR)'}, { ko: '\'단웅즈\' 야구관람 동아리 활동', en : '\'Danwoongs\' Baseball Fan Club'}, { ko: '\'M.O.D.E\' e스포츠 동아리 활동', en: '\'M.O.D.E\' eSports Club'}],
-    story: { // ✏️ 초안이에요 — 실제 경험에 맞게 직접 다듬어 주세요
+    story: {
       ko: `독일학을 전공하고 소프트웨어학을 복수전공하며, **사람을 이해하는 눈과 문제를 논리적으로 푸는 힘**을 함께 기를 수 있었습니다.
 
 독일학에서는 언어와 함께 그 언어를 쓰는 사회의 역사, 문화, 사고방식을 배웠습니다. 같은 문장도 맥락에 따라 전혀 다르게 읽힌다는 것을 배우며, 글과 말 너머에 있는 **상대의 의도와 맥락을 읽는 습관**을 갖게 되었습니다. 낯선 텍스트를 끝까지 붙들고 해석하는 과정은 끈기를 길러 주었습니다.
@@ -60,14 +59,14 @@ This taught me that trust and close cooperation between teammates matter just as
   { id: 'discord', kind: 'beacon', x: 80, y: 74, period: '2024.07 – 2025.02',
     place: { ko: 'IT 및 게임 정보 공유 커뮤니티 (Discord)', en: 'IT & Game Info Community (Discord)' },
     title: { ko: '서버 운영진', en: 'Server moderator' },
-    quests: [ // ✏️ 2·4·5번은 초안이에요. WAU 수치(예: ○○% 증가)가 있으면 2번에 넣어 주세요
+    quests: [
       { ko: '300명 이상 규모 서버 운영', en: 'Ran a 300+ member server' },
       { ko: '주간 활성 사용자(WAU) 증대를 목표로 참여 이벤트 · 공지 기획', en: 'Planned events and announcements to grow weekly active users (WAU)' },
       { ko: '음성 채널 활동 순위 봇(Suribot)을 직접 만들어 도입, 꾸준한 참여 유도', en: 'Built and launched my own voice-activity ranking bot (Suribot) to keep members coming back' },
       { ko: '채널 구조 · 규칙을 정비하고 신규 멤버 안내', en: 'Reorganized channels and rules, and onboarded new members' },
       { ko: '신고 · 분쟁 대응 및 멤버 간 소통 중재', en: 'Handled reports and disputes, and mediated between members' },
     ],
-    story: { // ✏️ 초안이에요 — 실제 경험에 맞게 직접 다듬어 주세요
+    story: {
       ko: `300명 이상이 모인 IT · 게임 정보 공유 디스코드 서버의 운영진으로 활동하며 **사람이 머무는 공간을 만드는 법**을 배웠습니다.
 
 서버는 인원이 많다고 살아 있는 것이 아니었습니다. 가입만 하고 조용히 떠나는 멤버가 많았고, 실제로 매주 대화에 참여하는 사람의 수가 커뮤니티의 진짜 크기라는 것을 알게 되었습니다. 그래서 주간 활성 사용자(WAU)를 기준으로 삼고, 어떤 공지와 이벤트에 사람들이 반응하는지 살피며 운영 방향을 조정했습니다.
@@ -86,43 +85,6 @@ I also looked for what I could do as a developer. I built 'Suribot', a bot that 
 When handling disputes and reports, I tried not to hear only one side and to judge consistently by the rules. I learned that members trust a server when its rules are applied fairly.
 
 This showed me that a good service isn't finished by its features alone: **watching how users respond and improving from there** is what matters.`,
-    } },
-  { id: 'capstone', kind: 'castle', x: 79.5, y: 15.5, period: '2026.01 – 2026.06',
-    place: { ko: "게임 제작 프로젝트 'FFF'", en: "Game Development Project 'FFF'" },
-    title: { ko: '3인 팀 리더 · 스크럼 마스터', en: 'Team Lead · Scrum Master (3-people team)' },
-    quests: [
-      { ko: '팀 리더 · 스크럼 마스터로 요구사항을 조율하고 기능별 우선순위 결정', en: 'As team lead and scrum master, aligned requirements and set feature priorities' },
-      { ko: 'Notion으로 일정 · 이슈를 공유하고 진행 상황 관리', en: 'Shared the schedule and issues in Notion and tracked progress' },
-      { ko: 'main – dev – feature 브랜치 전략(Git Flow) 수립, PR 병합 관리', en: 'Set up the main – dev – feature branch strategy (Git Flow) and managed PR merges' },
-      { ko: '게임 전체 흐름(GameManager · SceneLoader)과 9개 씬 구조 설계', en: 'Designed the game flow (GameManager, SceneLoader) and the nine-scene structure' },
-      { ko: '시드 기반 로그라이크 맵 생성(15층 × 7열)과 맵 UI 구현', en: 'Built seed-based roguelike map generation (15 floors × 7 columns) and the map UI' },
-      { ko: '화투 카드 데이터 · 덱 시스템 · 섯다 족보 판정 구현', en: 'Built the Hwatu card data, the deck system and Seotda hand judging' },
-      { ko: '사운드 시스템, 카드 · 전투 애니메이션, 로딩 화면, HUD · 상점 UI 구현', en: 'Built the sound system, card and battle animations, loading screen, HUD and shop UI' },
-      { ko: 'README 작성 및 최종 빌드 · 발표 자료 정리', en: 'Wrote the README and wrapped up the final build and presentation' },
-    ],
-    story: { // ✏️ 초안이에요 — 실제 경험에 맞게 직접 다듬어 주세요
-      ko: `3인 팀의 리더이자 스크럼 마스터로 캡스톤 게임 'FFF'를 완성하며 **팀이 같은 방향을 보게 만드는 일의 중요성**을 배웠습니다.
-
-처음에는 각자 맡은 기능을 잘 만들면 게임이 완성될 거라 생각했습니다. 하지만 세 사람이 동시에 개발하자 기능이 서로 맞물리지 않거나, 같은 부분을 다르게 이해하는 일이 생겼습니다. 그래서 요구사항을 먼저 함께 정리하고, Notion에 일정과 이슈를 공유해 **누가 무엇을 언제까지 하는지** 모두가 볼 수 있게 했습니다.
-
-협업 방식도 정했습니다. main – dev – feature로 브랜치를 나누고, 기능은 feature 브랜치에서 만든 뒤 검토를 거쳐 dev로 합치는 흐름을 세웠습니다. 덕분에 충돌이 줄었고, 언제든 발표 가능한 안정 버전을 지킬 수 있었습니다.
-
-개발자로서는 게임 전체 흐름과 씬 구조를 먼저 설계하는 역할을 맡았습니다. 뼈대가 먼저 서 있어야 팀원들이 전투나 아이템 같은 기능을 그 위에 붙일 수 있었기 때문입니다. 이 과정에서 **좋은 구조가 곧 팀의 작업 속도**라는 것을 체감했습니다.
-
-마감이 다가올수록 하고 싶은 기능과 할 수 있는 기능 사이에서 우선순위를 정해야 했습니다. 모든 것을 완벽하게 만들기보다, 타이틀부터 엔딩까지 **끝까지 플레이할 수 있는 게임을 완성하는 것**을 목표로 범위를 조율했고, 그 결정 덕분에 일정 안에 결과물을 낼 수 있었습니다.
-
-이 경험을 통해 리더의 역할은 가장 많은 코드를 쓰는 것이 아니라, 팀원 모두가 막힘 없이 자기 몫을 해낼 수 있는 환경을 만드는 것이라는 사실을 깨달았습니다.`,
-      en: `Leading a three-person team as lead and scrum master on the capstone game 'FFF' taught me **how much it matters to keep a team looking in the same direction**.
-
-At first I thought the game would come together if everyone built their own part well. But with three people developing at once, features didn't always fit together, and we sometimes understood the same thing differently. So we sorted out the requirements together first and shared the schedule and issues in Notion, so everyone could see **who was doing what, and by when**.
-
-We also agreed on how to work together. We split branches into main – dev – feature: each feature was built on its own branch, reviewed, then merged into dev. That cut down on conflicts and kept a stable build ready to present at any time.
-
-As a developer, I designed the overall game flow and scene structure first. The skeleton had to be in place before teammates could attach features like battles and items to it. That showed me first-hand that **good structure is what sets a team's pace**.
-
-As the deadline got closer, we had to choose between what we wanted to build and what we could finish. Instead of polishing everything, we aimed for **a game you can play from title screen to ending**, and that call is what let us ship on time.
-
-This taught me that a leader's job isn't to write the most code, but to build an environment where everyone can do their part without getting stuck.`,
     } },
 ];
 
