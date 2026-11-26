@@ -83,7 +83,7 @@ export const skills = [
       { ko: '카드 · 아이템 · 적 데이터는 ScriptableObject로, 런타임에 ID로 찾아야 하는 것만 Resources에 두는 기준을 정했습니다.', en: 'Set the rule that card, item and enemy data live in ScriptableObjects, with only data looked up by ID at runtime in Resources.' },
       { ko: '여러 명이 같은 프로젝트를 고치도록 main – dev – feature 브랜치와 PR 병합 흐름을 운영했습니다.', en: 'Ran a main – dev – feature branch and PR merge flow so several people could work on the same project.' },
     ] },
-  { id: 'unreal', stage: 'tools', icon: '🕹️', color: '#c9c3ff', level: 2, name: 'Unreal', ability: { ko: '게임 엔진', en: 'Game engine' }, usedIn: [], details: [] },
+  { id: 'unreal', stage: 'tools', icon: '🕹️', color: '#c9c3ff', level: 4, name: 'Unreal', ability: { ko: '게임 엔진', en: 'Game engine' }, usedIn: [], details: [] },
   { id: 'git', stage: 'tools', icon: 'Git', color: '#ffc4a8', level: 4, name: 'Git · GitHub', ability: { ko: '버전 관리 · 협업', en: 'Version control · collaboration' }, usedIn: ['FFF', 'Portfolio'], 
     details: [
       { ko: 'main – dev – feature 브랜치 전략을 세우고, feature에서 자체 테스트 → PR 리뷰 → dev 병합 → 마일스톤마다 main 병합 흐름을 운영했습니다. (FFF)', en: 'Set up a main – dev – feature branch strategy and ran the flow: test on feature → PR review → merge to dev → merge to main at each milestone (FFF).' },
